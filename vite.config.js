@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react'; // atau plugin lain sesuai project And
 
 export default defineConfig({
     // Base path dimana aplikasi akan di-deploy
-    base: '/Smartsaku',
+    base: '/SmartSaku',
 
     publicDir: 'public',
 
