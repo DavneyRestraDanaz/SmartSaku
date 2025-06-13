@@ -43,9 +43,8 @@ class DashboardController {
 
     cekAutentikasi() {
         if (!AuthService.sudahLogin()) {
-            NotifikasiUtil.tampilkanError('Silakan login terlebih dahulu');
-            setTimeout(() => {
-                window.location.href = '/login';
+            NotifikasiUtil.tampilkanError('Silakan login terlebih dahulu');            setTimeout(() => {
+                window.location.href = '/SmartSaku/src/templates/login.html';
             }, 2000);
             return false;
         }

@@ -139,10 +139,9 @@ class AuthService {
     /**
      * Logout user dari sistem
      */
-    static logout() {
-        localStorage.removeItem('smartsaku_token');
+    static logout() {        localStorage.removeItem('smartsaku_token');
         localStorage.removeItem('smartsaku_user');
-        window.location.href = '/';
+        window.location.href = '/SmartSaku/';
     }
 
     /**

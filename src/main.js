@@ -89,13 +89,13 @@ function setupRouter() {
 
     // Redirect jika sudah login dan mencoba akses login/register
     if ((path.includes('login') || path.includes('register')) && AuthService.sudahLogin()) {
-        window.location.href = '/src/templates/dashboard.html';
+        window.location.href = '/SmartSaku/src/templates/dashboard.html';
         return;
     }
 
     // Redirect ke login jika belum login dan mencoba akses dashboard
     if (path.includes('dashboard') && !AuthService.sudahLogin()) {
-        window.location.href = '/src/templates/login.html';
+        window.location.href = '/SmartSaku/src/templates/login.html';
         return;
     }
 }
@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Redirect ke home page jika di root
     if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
-        window.location.href = '/src/templates/home.html';
+        window.location.href = '/SmartSaku/src/templates/home.html';
     }
 
     // Log untuk debugging

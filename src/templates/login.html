@@ -37,8 +37,7 @@
     >
       <div class="max-w-md w-full space-y-8">
         <!-- Header -->
-        <div class="text-center">
-          <a href="/" class="inline-block">
+        <div class="text-center">          <a href="/SmartSaku/" class="inline-block">
             <h1
               class="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent"
             >
@@ -51,7 +50,7 @@
           <p class="mt-2 text-sm text-gray-600">
             Belum punya akun?
             <a
-              href="/src/templates/register.html"
+              href="/SmartSaku/src/templates/register.html"
               class="font-medium text-primary hover:text-secondary transition-colors"
             >
               Daftar di sini
@@ -233,7 +232,7 @@
               "Anda sudah login, mengalihkan ke dashboard..."
             );
             setTimeout(() => {
-              window.location.href = "/src/templates/dashboard.html";
+              window.location.href = "/SmartSaku/src/templates/dashboard.html";
             }, 2000);
           }
         }
@@ -261,7 +260,7 @@
                 "Login berhasil! Mengalihkan ke dashboard..."
               ); // Redirect ke dashboard setelah 2 detik
               setTimeout(() => {
-                window.location.href = "/src/templates/dashboard.html";
+                window.location.href = "/SmartSaku/src/templates/dashboard.html";
               }, 2000);
             } else {
               NotifikasiUtil.tampilkanError(result.pesan);
@@ -293,7 +292,7 @@
                 "Demo login berhasil! Mengalihkan ke dashboard..."
               );
               setTimeout(() => {
-                window.location.href = "/src/templates/dashboard.html";
+                window.location.href = "/SmartSaku/src/templates/dashboard.html";
               }, 2000);
             } else {
               NotifikasiUtil.tampilkanError(result.pesan);
