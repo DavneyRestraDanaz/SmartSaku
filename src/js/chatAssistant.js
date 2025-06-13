@@ -179,7 +179,7 @@ class ChatAssistant {
         console.log('Sending message to chat API:', message);
 
         try {
-            // Send message to API (http://202.10.35.227/chat)
+            // Send message to API (https://202.10.35.227/chat)
             const response = await fetch(API_ENDPOINTS.CHAT, {
                 method: 'POST',
                 headers: {

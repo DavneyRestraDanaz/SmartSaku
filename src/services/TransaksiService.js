@@ -29,7 +29,7 @@ class TransaksiService {    /**
 
             // Check if the URL is already absolute (starts with http:// or https://)
             const isAbsoluteUrl = url.startsWith('http://') || url.startsWith('https://');
-            const fullUrl = isAbsoluteUrl ? url : `http://202.10.35.227${url}`;
+            const fullUrl = isAbsoluteUrl ? url : `https://202.10.35.227${url}`;
 
             // Jika langsung gagal, gunakan proxy CORS
             try {
@@ -279,7 +279,7 @@ class TransaksiService {    /**
     static async ambilRekomendasi() {
         try {
             // Use a more reliable CORS proxy specifically for recommendations
-            const recommendationUrl = 'http://202.10.35.227/api/recommendation';
+            const recommendationUrl = 'https://202.10.35.227/api/recommendation';
             let response;
             let data; try {
                 // First try: Direct fetch with no-cors mode
@@ -349,7 +349,7 @@ class TransaksiService {    /**
     static async ambilPrediksi() {
         try {
             // Use a more reliable CORS proxy specifically for predictions
-            const predictionUrl = 'http://202.10.35.227/api/prediction';
+            const predictionUrl = 'https://202.10.35.227/api/prediction';
             let response;
             let data;
 
@@ -443,9 +443,8 @@ class TransaksiService {    /**
      * Tes koneksi ke server API
      * @returns {Promise<Object>} Status koneksi server
      */    static async testConnection() {
-        try {
-            console.log('Testing API connection to server');
-            const response = await fetch('http://202.10.35.227/api/user/login', {
+        try {            console.log('Testing API connection to server');
+            const response = await fetch('https://202.10.35.227/api/user/login', {
                 method: 'OPTIONS',
                 headers: {
                     'Accept': 'application/json',

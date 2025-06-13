@@ -44,7 +44,7 @@ export default defineConfig({
         open: true, // Buka browser otomatis
         proxy: {
             '/api': {
-                target: 'http://202.10.35.227',
+                target: 'https://202.10.35.227',
                 changeOrigin: true,
                 secure: false
             }

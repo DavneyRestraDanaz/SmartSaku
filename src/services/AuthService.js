@@ -6,135 +6,84 @@ class AuthService {
      * Login user ke sistem
      * @param {Object} kredensial - Email dan password user
      * @returns {Promise<Object>} Response dari API
-     */    static async login(kredensial) {
+     */    async login(username, password) {
         try {
-            // Try the direct API endpoint first
-            console.log('Attempting direct API login');
-            const response = await fetch(API_ENDPOINTS.LOGIN, {
+            const response = await fetch('https://202.10.35.227/api/user/login', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(kredensial)
+                body: JSON.stringify({ username, password })
             });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
 
             const data = await response.json();
-
-            if (response.ok) {
-                // Simpan token dan data user di localStorage
-                this.simpanDataUser(data.token, data.user);
-                return { berhasil: true, data };
-            } else {
-                return { berhasil: false, pesan: data.message || 'Login gagal' };
-            }
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('user', JSON.stringify(data.user));
+            return data;
         } catch (error) {
             console.error('Error saat login:', error);
-
-            // If direct connection fails, try the backend directly with no-cors mode
-            try {
-                return await this.tryAlternativeLogin(kredensial);
-            } catch (altError) {
-                console.error('Alternative login failed:', altError);
-                return { berhasil: false, pesan: 'Server tidak dapat diakses. Pastikan Anda memiliki koneksi internet.' };
-            }
+            
+            // Coba login dengan metode alternatif jika fetch gagal
+            return this.tryAlternativeLogin(username, password);
         }
-    }    /**
-     * Alternative login approach for CORS issues
-     * @param {Object} kredensial - Email and password
-     * @returns {Promise<Object>} Authentication result
-     */
-    static async tryAlternativeLogin(kredensial) {
-        // First attempt - direct HTTPS connection
+    }
+
+    async tryAlternativeLogin(username, password) {
         try {
-            console.log('Attempting direct HTTPS connection');
-            const directResponse = await fetch('https://202.10.35.227/api/user/login', {
+            console.log("Mencoba metode login alternatif...");
+            
+            // Coba dengan alternatif endpoint
+            const response = await fetch('https://202.10.35.227/api/user/login', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(kredensial)
+                body: JSON.stringify({ username, password })
             });
 
-            const directData = await directResponse.json();
-            
-            if (directResponse.ok) {
-                this.simpanDataUser(directData.token, directData.user);
-                return { berhasil: true, data: directData };
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
+
+            const data = await response.json();
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('user', JSON.stringify(data.user));
+            return data;
         } catch (error) {
-            console.log('Direct HTTPS connection failed:', error);
-        }
-
-        // Second attempt - use fetch with no-cors mode
-        try {
-            console.log('Attempting no-cors mode');
-            const noCorsResponse = await fetch('http://202.10.35.227/api/user/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                mode: 'no-cors',
-                body: JSON.stringify(kredensial)
-            });
+            console.error('Metode login alternatif gagal, mencoba dengan XHR...');
             
-            // no-cors doesn't allow reading the response body
-            // Instead, we'll try a separate GET request to check login status
-            if (noCorsResponse.type === 'opaque') {
-                // If we got this far, try a status check
-                try {
-                    const statusCheck = await fetch('http://202.10.35.227/api/user/me', {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json',
+            // Jika kedua metode gagal, coba dengan XMLHttpRequest sebagai fallback
+            return new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', 'https://202.10.35.227/api/user/login', true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                
+                xhr.onload = function() {
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        try {
+                            const data = JSON.parse(xhr.responseText);
+                            localStorage.setItem('token', data.token);
+                            localStorage.setItem('user', JSON.stringify(data.user));
+                            resolve(data);
+                        } catch (e) {
+                            reject(new Error('Failed to parse response'));
                         }
-                    });
-                    
-                    if (statusCheck.ok) {
-                        const userData = await statusCheck.json();
-                        const fakeToken = 'token-' + Math.random().toString(36).substring(2);
-                        this.simpanDataUser(fakeToken, userData);
-                        return { berhasil: true, data: { token: fakeToken, user: userData } };
+                    } else {
+                        reject(new Error(`XHR error! status: ${xhr.status}`));
                     }
-                } catch (statusError) {
-                    console.log('Status check failed:', statusError);
-                }
-            }
-        } catch (error) {
-            console.log('No-cors mode failed:', error);
+                };
+                
+                xhr.onerror = function() {
+                    reject(new Error('Network error with XHR'));
+                };
+                
+                xhr.send(JSON.stringify({ username, password }));
+            });
         }
-
-        // Third attempt - use XMLHttpRequest instead of fetch
-        return new Promise((resolve, reject) => {
-            console.log('Attempting XMLHttpRequest');
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', 'http://202.10.35.227/api/user/login', true);
-            xhr.setRequestHeader('Content-Type', 'application/json');
-            xhr.withCredentials = true;
-            
-            xhr.onload = function() {
-                if (xhr.status >= 200 && xhr.status < 300) {
-                    try {
-                        const data = JSON.parse(xhr.responseText);
-                        AuthService.simpanDataUser(data.token, data.user);
-                        resolve({ berhasil: true, data });
-                    } catch (e) {
-                        reject(e);
-                    }
-                } else {
-                    try {
-                        const errorData = JSON.parse(xhr.responseText);
-                        resolve({ berhasil: false, pesan: errorData.message || 'Login gagal' });
-                    } catch (e) {
-                        resolve({ berhasil: false, pesan: 'Login gagal dengan status ' + xhr.status });
-                    }
-                }
-            };
-            
-            xhr.onerror = function() {
-                resolve({ berhasil: false, pesan: 'Tidak dapat terhubung ke server' });
-            };
-            
-            xhr.send(JSON.stringify(kredensial));        });
     }
 
     /**
@@ -142,139 +91,147 @@ class AuthService {
      * @param {Object} dataUser - Data user baru (name, email, password)
      * @returns {Promise<Object>} Response dari API
      */
-    static async register(dataUser) {
+    async register(userData) {
         try {
-            // Try direct registration first
-            console.log('Attempting direct API registration');
-            const response = await fetch(API_ENDPOINTS.REGISTER, {                method: 'POST',
+            const response = await fetch('https://202.10.35.227/api/user/register', {
+                method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(dataUser)
+                body: JSON.stringify(userData)
             });
 
-            const data = await response.json();
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(errorText || `HTTP error! status: ${response.status}`);
+            }
 
-            if (response.ok) {
-                return { berhasil: true, data };
-            } else {
-                return { berhasil: false, pesan: data.message || 'Registrasi gagal' };
-            }
+            const data = await response.json();
+            return data;
         } catch (error) {
-            console.error('Error saat registrasi:', error);
-            
-            // Try alternative registration approach
-            try {
-                return await this.tryAlternativeRegister(dataUser);
-            } catch (altError) {
-                console.error('Alternative registration failed:', altError);
-                return { berhasil: false, pesan: 'Server tidak dapat diakses. Pastikan Anda memiliki koneksi internet.' };
-            }
+            console.error('Error saat register:', error);
+            throw error;
         }
     }
-    
-    /**
-     * Alternative register approach for CORS issues
-     * @param {Object} dataUser - User data
-     * @returns {Promise<Object>} Registration result
-     */
-    static async tryAlternativeRegister(dataUser) {
-        // First attempt - direct HTTPS connection
+
+    logout() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        // Redirect ke halaman login atau halaman utama
+        window.location.href = '/SmartSaku/src/templates/login.html';
+    }
+
+    isAuthenticated() {
+        return localStorage.getItem('token') !== null;
+    }
+
+    getCurrentUser() {
+        const userStr = localStorage.getItem('user');
+        if (userStr) {
+            return JSON.parse(userStr);
+        }
+        return null;
+    }
+
+    getToken() {
+        return localStorage.getItem('token');
+    }
+
+    async getProfile() {
         try {
-            console.log('Attempting direct HTTPS registration');
-            const directResponse = await fetch('https://202.10.35.227/api/user/register', {
+            const token = this.getToken();
+            if (!token) {
+                throw new Error('No authentication token found');
+            }
+
+            const response = await fetch('https://202.10.35.227/api/user/profile', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('Error saat mengambil profil:', error);
+            throw error;
+        }
+    }
+
+    async updateProfile(profileData) {
+        try {
+            const token = this.getToken();
+            if (!token) {
+                throw new Error('No authentication token found');
+            }
+
+            const response = await fetch('https://202.10.35.227/api/user/profile', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(profileData)
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            
+            // Update user data in localStorage if necessary
+            const currentUser = this.getCurrentUser();
+            if (currentUser) {
+                const updatedUser = { ...currentUser, ...profileData };
+                localStorage.setItem('user', JSON.stringify(updatedUser));
+            }
+            
+            return data;
+        } catch (error) {
+            console.error('Error saat mengupdate profil:', error);
+            throw error;
+        }
+    }
+
+    async changePassword(currentPassword, newPassword) {
+        try {
+            const token = this.getToken();
+            if (!token) {
+                throw new Error('No authentication token found');
+            }
+
+            const response = await fetch('https://202.10.35.227/api/user/change-password', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify(dataUser)
+                body: JSON.stringify({ currentPassword, newPassword })
             });
 
-            const directData = await directResponse.json();
-            
-            if (directResponse.ok) {
-                return { berhasil: true, data: directData };
-            }        } catch (error) {
-            console.log('Direct HTTPS registration failed:', error);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('Error saat mengubah password:', error);
+            throw error;
         }
-
-        // Third attempt - use XMLHttpRequest instead of fetch
-        return new Promise((resolve, reject) => {
-            console.log('Attempting XMLHttpRequest for registration');
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', 'http://202.10.35.227/api/user/register', true);
-            xhr.setRequestHeader('Content-Type', 'application/json');
-            xhr.withCredentials = true;
-            
-            xhr.onload = function() {
-                if (xhr.status >= 200 && xhr.status < 300) {
-                    try {
-                        const data = JSON.parse(xhr.responseText);
-                        resolve({ berhasil: true, data });
-                    } catch (e) {
-                        reject(e);
-                    }
-                } else {
-                    try {
-                        const errorData = JSON.parse(xhr.responseText);
-                        resolve({ berhasil: false, pesan: errorData.message || 'Registrasi gagal' });
-                    } catch (e) {
-                        resolve({ berhasil: false, pesan: 'Registrasi gagal dengan status ' + xhr.status });
-                    }
-                }
-            };
-            
-            xhr.onerror = function() {
-                resolve({ berhasil: false, pesan: 'Tidak dapat terhubung ke server' });
-            };
-            
-            xhr.send(JSON.stringify(dataUser));
-        });
     }
 
-    /**
-     * Logout user dari sistem
-     */
-    static logout() {
-        localStorage.removeItem('smartsaku_token');
-        localStorage.removeItem('smartsaku_user');
-        window.location.href = '/SmartSaku/';
-    }
-
-    /**
-     * Simpan data user ke localStorage
-     * @param {string} token - JWT token
-     * @param {Object} user - Data user
-     */
-    static simpanDataUser(token, user) {
-        localStorage.setItem('smartsaku_token', token);
-        localStorage.setItem('smartsaku_user', JSON.stringify(user));
-    }
-
-    /**
-     * Ambil token dari localStorage
-     * @returns {string|null} JWT token
-     */
-    static getToken() {
-        return localStorage.getItem('smartsaku_token');
-    }
-
-    /**
-     * Ambil data user dari localStorage
-     * @returns {Object|null} Data user
-     */
-    static getUser() {
-        const userData = localStorage.getItem('smartsaku_user');
-        return userData ? JSON.parse(userData) : null;
-    }
-
-    /**
-     * Cek apakah user sudah login
-     * @returns {boolean} Status login
-     */
-    static sudahLogin() {
-        return this.getToken() !== null;
+    redirectToLogin() {
+        window.location.href = '/SmartSaku/src/templates/login.html';
     }
 }
 
-export default AuthService;
+// Export sebagai singleton
+const authService = new AuthService();
+export default authService;

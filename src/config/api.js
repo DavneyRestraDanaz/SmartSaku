@@ -1,6 +1,6 @@
 // Konfigurasi API untuk SmartSaku
-const API_BASE_URL = 'http://202.10.35.227/api';
-const CHAT_API_URL = 'http://202.10.35.227';
+const API_BASE_URL = 'https://202.10.35.227/api';
+const CHAT_API_URL = 'https://202.10.35.227';
 const API_ENDPOINTS = {
     // User endpoints
     LOGIN: `${API_BASE_URL}/user/login`,
@@ -13,7 +13,7 @@ const API_ENDPOINTS = {
     PENGELUARAN_BY_ID: (userId, transactionId) => `${API_BASE_URL}/users/${userId}/expenses/${transactionId}`,
 
     // AI endpoints
-    CHAT: `${CHAT_API_URL}/chat`, // Menggunakan endpoint chat produksi di http://202.10.35.227/chat
+    CHAT: `${CHAT_API_URL}/chat`, // Menggunakan endpoint chat produksi di https://202.10.35.227/chat
     RECOMMENDATION: `${CHAT_API_URL}/recommendation`,
     PREDICTION: `${CHAT_API_URL}/prediction`
 };

@@ -20,8 +20,7 @@ class AiService {
      * @returns {Promise<Object>} Recommendation data
      */
     static async getRecommendation() {
-        try {
-            const recommendationUrl = 'http://202.10.35.227/api/recommendation';
+        try {            const recommendationUrl = 'https://202.10.35.227/api/recommendation';
 
             // Try proxy service 1 - corsproxy.io
             try {
@@ -85,7 +84,7 @@ class AiService {
      */
     static async getPrediction() {
         try {
-            const predictionUrl = 'http://202.10.35.227/api/prediction';
+            const predictionUrl = 'https://202.10.35.227/api/prediction';
 
             // Try proxy service 1 - corsproxy.io
             try {
