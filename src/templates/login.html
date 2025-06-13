@@ -154,8 +154,7 @@
               class="w-full bg-gradient-to-r from-primary to-secondary text-white py-3 px-4 rounded-lg font-semibold hover:shadow-lg hover:shadow-primary/25 transform hover:-translate-y-0.5 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
             >
               Masuk
-            </button>
-          </form>
+            </button>          </form>
 
           <!-- Divider -->
           <div class="mt-6 flex items-center">
@@ -256,9 +255,16 @@
             const result = await AuthService.login({ email, password });
 
             if (result.berhasil) {
-              NotifikasiUtil.tampilkanSukses(
-                "Login berhasil! Mengalihkan ke dashboard..."
-              ); // Redirect ke dashboard setelah 2 detik
+                let message = "Login berhasil! Mengalihkan ke dashboard...";
+              
+              // If using demo mode, show a different message
+              if (result.isDemoMode) {
+                message = "Login demo berhasil! Menggunakan data simulasi.";
+              }
+              
+              NotifikasiUtil.tampilkanSukses(message);
+              
+              // Redirect ke dashboard setelah 2 detik
               setTimeout(() => {
                 window.location.href = "/SmartSaku/src/templates/dashboard.html";
               }, 2000);
@@ -278,13 +284,13 @@
           LoadingUtil.tampilkanLoadingButton(btnDemo, "Memuat demo...");
 
           // Isi form dengan data demo
-          document.getElementById("email").value = "admin@test.com";
-          document.getElementById("password").value = "admin123";
+          document.getElementById("email").value = "demo@smartsaku.com";
+          document.getElementById("password").value = "demo123";
 
           try {
             const result = await AuthService.login({
-              email: "admin@test.com",
-              password: "admin123",
+              email: "demo@smartsaku.com",
+              password: "demo123",
             });
 
             if (result.berhasil) {
@@ -299,6 +305,7 @@
             }
           } catch (error) {
             NotifikasiUtil.tampilkanError("Terjadi kesalahan sistem");
+            console.error("Error demo login:", error);
           } finally {
             LoadingUtil.sembunyikanLoadingButton(btnDemo);
           }
@@ -381,8 +388,7 @@
       // Inisialisasi controller saat DOM ready      
       document.addEventListener("DOMContentLoaded", () => {
         new LoginController();
-      });
-    </script>
-    <script type="module" src="/SmartSaku/src/main.js"></script>
+      });    </script>
+    <script type="module" src="../main.js"></script>
   </body>
 </html>

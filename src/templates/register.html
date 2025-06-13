@@ -338,12 +338,18 @@
             });
 
             if (result.berhasil) {
-              NotifikasiUtil.tampilkanSukses(
-                "Registrasi berhasil! Silakan login dengan akun Anda."
-              );
+              let message = "Registrasi berhasil! Silakan login dengan akun Anda.";
+              
+              // If using demo mode, show a different message
+              if (result.isDemoMode) {
+                message = "Registrasi demo berhasil! Silakan login dengan akun yang baru saja didaftarkan.";
+              }
+              
+              NotifikasiUtil.tampilkanSukses(message);
 
               // Reset form
-              e.target.reset(); // Redirect ke login setelah 3 detik
+              e.target.reset(); 
+              // Redirect ke login setelah 3 detik
               setTimeout(() => {
                 window.location.href = "/SmartSaku/src/templates/login.html";
               }, 3000);
@@ -492,8 +498,7 @@
       // Inisialisasi controller saat DOM ready     
        document.addEventListener("DOMContentLoaded", () => {
         new RegisterController();
-      });
-    </script>
-    <script type="module" src="/SmartSaku/src/main.js"></script>
+      });    </script>
+    <script type="module" src="../main.js"></script>
   </body>
 </html>

@@ -9,6 +9,7 @@ class AuthService {
      */
     static async login(kredensial) {
         try {
+            // Try HTTPS first
             const response = await fetch(API_ENDPOINTS.LOGIN, {
                 method: 'POST',
                 headers: {
@@ -29,21 +30,62 @@ class AuthService {
         } catch (error) {
             console.error('Error saat login:', error);
 
-            // Jika error CORS atau network, coba dengan direct URL
-            if (error.message.includes('Failed to fetch') || error.name === 'TypeError') {
-                return await this.loginFallback(kredensial);
+            // Fallback to demo mode if in production environment
+            if (window.location.hostname.includes('github.io')) {
+                // We're on GitHub Pages, use demo mode
+                console.log('Running in GitHub Pages environment, using demo mode');
+                return this.loginDemo(kredensial);
             }
 
-            return { berhasil: false, pesan: 'Terjadi kesalahan koneksi' };
+            // Try fallback for local development
+            try {
+                return await this.loginFallback(kredensial);
+            } catch (fallbackError) {
+                console.error('Fallback login failed:', fallbackError);
+                return { 
+                    berhasil: false, 
+                    pesan: 'Server tidak dapat diakses. Coba lagi nanti atau gunakan demo mode.' 
+                };
+            }
         }
+    }
+
+    /**
+     * Demo login for GitHub Pages deployment
+     * @param {Object} kredensial - Email and password
+     * @returns {Object} Simulated successful response
+     */
+    static loginDemo(kredensial) {
+        // Create mock user data for demo purposes
+        const mockUser = {
+            id: 'demo-user-123',
+            name: kredensial.email.split('@')[0] || 'Demo User',
+            email: kredensial.email,
+            role: 'user',
+            created_at: new Date().toISOString()
+        };
+        
+        const mockToken = 'demo-token-' + Math.random().toString(36).substring(2);
+        
+        // Save the mock data
+        this.simpanDataUser(mockToken, mockUser);
+        
+        return { 
+            berhasil: true, 
+            data: { 
+                token: mockToken, 
+                user: mockUser,
+                message: 'Demo login berhasil'
+            },
+            isDemoMode: true
+        };
     }
 
     /**
      * Fallback login jika proxy tidak bekerja
      * @param {Object} kredensial - Email dan password user
      * @returns {Promise<Object>} Response dari API
-     */
-    static async loginFallback(kredensial) {
+     */    static async loginFallback(kredensial) {
         try {
             const response = await fetch('http://202.10.35.227/api/user/login', {
                 method: 'POST',
@@ -92,48 +134,33 @@ class AuthService {
                 return { berhasil: false, pesan: data.message || 'Registrasi gagal' };
             }
         } catch (error) {
-            console.error('Error saat registrasi:', error);
-
-            // Jika error CORS atau network, coba dengan direct URL
-            if (error.message.includes('Failed to fetch') || error.name === 'TypeError') {
-                return await this.registerFallback(dataUser);
+            console.error('Error saat register:', error);
+            
+            // Fallback to demo mode if in production environment
+            if (window.location.hostname.includes('github.io')) {
+                // We're on GitHub Pages, use demo mode
+                console.log('Running in GitHub Pages environment, using demo mode for registration');
+                return this.registerDemo(dataUser);
             }
-
+            
             return { berhasil: false, pesan: 'Terjadi kesalahan koneksi' };
         }
     }
-
+    
     /**
-     * Fallback register jika proxy tidak bekerja
-     * @param {Object} dataUser - Data user baru
-     * @returns {Promise<Object>} Response dari API
+     * Demo register for GitHub Pages deployment
+     * @param {Object} dataUser - User data
+     * @returns {Object} Simulated successful response
      */
-    static async registerFallback(dataUser) {
-        try {
-            // Alternatif CORS proxy yang berbeda
-            const corsProxy = 'https://api.allorigins.win/raw?url=';
-            const url = encodeURIComponent('http://202.10.35.227/api/user/register');
-            const response = await fetch(corsProxy + url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*',
-                },
-                mode: 'cors',
-                body: JSON.stringify(dataUser)
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                return { berhasil: true, data };
-            } else {
-                return { berhasil: false, pesan: data.message || 'Registrasi gagal' };
-            }
-        } catch (error) {
-            console.error('Fallback register error:', error);
-            return { berhasil: false, pesan: 'Backend API tidak dapat diakses. Pastikan server berjalan di localhost:3000' };
-        }
+    static registerDemo(dataUser) {
+        // Create simulated response
+        return { 
+            berhasil: true, 
+            data: {
+                message: 'Pendaftaran berhasil dalam mode demo. Silakan login dengan akun yang baru saja didaftarkan.'
+            },
+            isDemoMode: true
+        };
     }
 
     /**

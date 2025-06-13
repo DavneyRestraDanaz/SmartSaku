@@ -1094,7 +1094,7 @@
       </div>
     </div>
     <!-- Script -->
-    <script type="module" src="/SmartSaku/src/js/dashboard.js"></script>  <script>
+    <script type="module" src="../js/dashboard.js"></script>  <script>
       // Suppress Tailwind CDN warnings
       console.warn = (function(originalWarn) {
         return function(msg, ...args) {
@@ -1253,9 +1253,9 @@
         // Initial layout adjustment
         adjustLayout();
 
-        // Close sidebar when window is resized
+        // Close sidebar when window is resized        
         window.addEventListener("resize", adjustLayout);      });
     </script>
-    <script type="module" src="/SmartSaku/src/main.js"></script>
+    <script type="module" src="../main.js"></script>
   </body>
 </html>

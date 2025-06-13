@@ -442,11 +442,10 @@ class TransaksiService {    /**
     /**
      * Tes koneksi ke server API
      * @returns {Promise<Object>} Status koneksi server
-     */
-    static async testConnection() {
+     */    static async testConnection() {
         try {
             console.log('Testing API connection to server');
-            const response = await fetch('http://202.10.35.227/api/user/login', {
+            const response = await fetch('https://202.10.35.227/api/user/login', {
                 method: 'OPTIONS',
                 headers: {
                     'Accept': 'application/json',
