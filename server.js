@@ -7,7 +7,7 @@ app.use('/Smartsaku', express.static(path.join(__dirname)));
 
 // Redirect root to home page
 app.get('/', (req, res) => {
-    res.redirect('/Smartsaku/src/templates/home.html');
+    res.redirect('/SmartSaku/src/templates/home.html');
 });
 
 // Start server

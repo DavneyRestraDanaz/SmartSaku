@@ -1147,7 +1147,7 @@ class DashboardController {
     }    // Load content for simulasi.html
     async loadSimulasiContent() {
         try {
-            const response = await fetch('/src/templates/simulasi.html');
+            const response = await fetch('/SmartSaku/src/templates/simulasi.html');
             if (!response.ok) {
                 throw new Error('Failed to load simulasi template');
             }
@@ -1188,7 +1188,7 @@ class DashboardController {
 
         const script = document.createElement('script');
         script.id = 'simulasi-script';
-        script.src = '/src/js/simulasi.js';
+        script.src = '/SmartSaku/src/js/simulasi.js';
         script.onload = () => {
             console.log('Simulasi script loaded successfully');
         };
@@ -1201,7 +1201,7 @@ class DashboardController {
     // Load content for notifikasi.html
     async loadNotifikasiContent() {
         try {
-            const response = await fetch('/src/templates/notifikasi.html');
+            const response = await fetch('/SmartSaku/src/templates/notifikasi.html');
             if (!response.ok) {
                 throw new Error('Failed to load notifikasi template');
             }
