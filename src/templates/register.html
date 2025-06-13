@@ -335,17 +335,10 @@
               name,
               email,
               password,
-            });
-
-            if (result.berhasil) {
-              let message = "Registrasi berhasil! Silakan login dengan akun Anda.";
-              
-              // If using demo mode, show a different message
-              if (result.isDemoMode) {
-                message = "Registrasi demo berhasil! Silakan login dengan akun yang baru saja didaftarkan.";
-              }
-              
-              NotifikasiUtil.tampilkanSukses(message);
+            });            if (result.berhasil) {
+              NotifikasiUtil.tampilkanSukses(
+                "Registrasi berhasil! Silakan login dengan akun Anda."
+              );
 
               // Reset form
               e.target.reset(); 

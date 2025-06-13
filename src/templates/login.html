@@ -146,24 +146,14 @@
               >
                 Lupa password?
               </a>
-            </div>
-
-            <button
+            </div>            <button
               type="submit"
               id="btnLogin"
               class="w-full bg-gradient-to-r from-primary to-secondary text-white py-3 px-4 rounded-lg font-semibold hover:shadow-lg hover:shadow-primary/25 transform hover:-translate-y-0.5 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
             >
               Masuk
-            </button>          </form>
-
-          <!-- Divider -->
-          <div class="mt-6 flex items-center">
-            <div class="flex-1 border-t border-gray-300"></div>
-            <span class="px-4 text-sm text-gray-500">atau</span>
-            <div class="flex-1 border-t border-gray-300"></div>
-          </div>
-
-          <!-- Demo Account -->
+            </button>          
+          </form>
         </div>
 
         <!-- Footer -->
@@ -196,9 +186,7 @@
         constructor() {
           this.initEventListeners();
           this.cekStatusLogin();
-        }
-
-        initEventListeners() {
+        }        initEventListeners() {
           // Form login
           document
             .getElementById("formLogin")
@@ -211,11 +199,6 @@
               "click",
               this.togglePasswordVisibility.bind(this)
             );
-
-          // Demo login
-          document
-            .getElementById("btnDemoLogin")
-            .addEventListener("click", this.handleDemoLogin.bind(this));
 
           // Real-time validation
           document
@@ -266,41 +249,8 @@
             }
           } catch (error) {
             NotifikasiUtil.tampilkanError("Terjadi kesalahan sistem");
-            console.error("Error login:", error);
-          } finally {
+            console.error("Error login:", error);          } finally {
             LoadingUtil.sembunyikanLoadingButton(btnLogin);
-          }
-        }
-
-        async handleDemoLogin() {
-          const btnDemo = document.getElementById("btnDemoLogin");
-          LoadingUtil.tampilkanLoadingButton(btnDemo, "Memuat demo...");
-
-          // Isi form dengan data demo
-          document.getElementById("email").value = "admin@test.com";
-          document.getElementById("password").value = "admin123";
-
-          try {
-            const result = await AuthService.login({
-              email: "admin@test.com",
-              password: "admin123",
-            });
-
-            if (result.berhasil) {
-              NotifikasiUtil.tampilkanSukses(
-                "Demo login berhasil! Mengalihkan ke dashboard..."
-              );
-              setTimeout(() => {
-                window.location.href = "/SmartSaku/src/templates/dashboard.html";
-              }, 2000);
-            } else {
-              NotifikasiUtil.tampilkanError(result.pesan);
-            }
-          } catch (error) {
-            NotifikasiUtil.tampilkanError("Terjadi kesalahan sistem");
-            console.error("Error demo login:", error);
-          } finally {
-            LoadingUtil.sembunyikanLoadingButton(btnDemo);
           }
         }
 
