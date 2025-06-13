@@ -255,16 +255,9 @@
             const result = await AuthService.login({ email, password });
 
             if (result.berhasil) {
-                let message = "Login berhasil! Mengalihkan ke dashboard...";
-              
-              // If using demo mode, show a different message
-              if (result.isDemoMode) {
-                message = "Login demo berhasil! Menggunakan data simulasi.";
-              }
-              
-              NotifikasiUtil.tampilkanSukses(message);
-              
-              // Redirect ke dashboard setelah 2 detik
+              NotifikasiUtil.tampilkanSukses(
+                "Login berhasil! Mengalihkan ke dashboard..."
+              ); // Redirect ke dashboard setelah 2 detik
               setTimeout(() => {
                 window.location.href = "/SmartSaku/src/templates/dashboard.html";
               }, 2000);
@@ -284,13 +277,13 @@
           LoadingUtil.tampilkanLoadingButton(btnDemo, "Memuat demo...");
 
           // Isi form dengan data demo
-          document.getElementById("email").value = "demo@smartsaku.com";
-          document.getElementById("password").value = "demo123";
+          document.getElementById("email").value = "admin@test.com";
+          document.getElementById("password").value = "admin123";
 
           try {
             const result = await AuthService.login({
-              email: "demo@smartsaku.com",
-              password: "demo123",
+              email: "admin@test.com",
+              password: "admin123",
             });
 
             if (result.berhasil) {
