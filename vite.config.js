@@ -44,7 +44,7 @@ export default defineConfig({
         open: true, // Buka browser otomatis
         proxy: {
             '/api': {
-                target: 'https://202.10.35.227',
+                target: 'https://smartsaku.ddns.net',
                 changeOrigin: true,
                 secure: false
             }

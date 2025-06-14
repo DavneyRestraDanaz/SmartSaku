@@ -1,18 +1,24 @@
 // Service untuk mengelola transaksi keuangan
-import { API_ENDPOINTS } from '../config/api.js';
+import { API_ENDPOINTS, API_BASE_URL } from '../config/api.js';
 import AuthService from './AuthService.js';
 
 class TransaksiService {    /**
      * Ambil header dengan authorization token
      * @returns {Object} Headers untuk request API
-     */
-    static getHeaders() {
+     */    static getHeaders() {
         const token = AuthService.getToken();
-        return {
+        console.log('Token untuk request:', token ? 'Ada' : 'Tidak ada');
+
+        const headers = {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
             'Accept': 'application/json'
         };
+
+        if (token) {
+            headers['Authorization'] = `Bearer ${token}`;
+        }
+
+        return headers;
     }
 
     /**
@@ -29,7 +35,7 @@ class TransaksiService {    /**
 
             // Check if the URL is already absolute (starts with http:// or https://)
             const isAbsoluteUrl = url.startsWith('http://') || url.startsWith('https://');
-            const fullUrl = isAbsoluteUrl ? url : `https://202.10.35.227${url}`;
+            const fullUrl = isAbsoluteUrl ? url : `https://smartsaku.ddns.net${url}`;
 
             // Jika langsung gagal, gunakan proxy CORS
             try {
@@ -59,23 +65,34 @@ class TransaksiService {    /**
      * Ambil semua transaksi pemasukan
      * @param {string} userId - ID user
      * @returns {Promise<Object>} Daftar transaksi pemasukan
-     */
-    static async ambilPemasukan(userId) {
+     */    static async ambilPemasukan(userId) {
         try {
+            console.log('Mengambil pemasukan untuk user ID:', userId);
+
+            if (!userId) {
+                console.error('User ID tidak valid:', userId);
+                return { berhasil: false, data: [], pesan: 'User ID tidak valid' };
+            }
+
             const response = await this.fetchWithFallback(API_ENDPOINTS.PEMASUKAN(userId), {
                 method: 'GET',
                 headers: this.getHeaders()
             });
 
+            console.log('Response pemasukan:', response.status);
+
             if (response.ok) {
                 const data = await response.json();
+                console.log('Data pemasukan berhasil diambil:', data);
                 return { berhasil: true, data };
             } else {
-                return { berhasil: false, pesan: 'Gagal mengambil data pemasukan' };
+                const errorText = await response.text();
+                console.error('Gagal mengambil pemasukan:', response.status, errorText);
+                return { berhasil: false, data: [], pesan: `Gagal mengambil data pemasukan: ${response.status}` };
             }
         } catch (error) {
             console.error('Error saat mengambil pemasukan:', error);
-            return { berhasil: false, pesan: 'Terjadi kesalahan koneksi' };
+            return { berhasil: false, data: [], pesan: 'Terjadi kesalahan koneksi' };
         }
     }
 
@@ -83,23 +100,34 @@ class TransaksiService {    /**
      * Ambil semua transaksi pengeluaran
      * @param {string} userId - ID user
      * @returns {Promise<Object>} Daftar transaksi pengeluaran
-     */
-    static async ambilPengeluaran(userId) {
+     */    static async ambilPengeluaran(userId) {
         try {
+            console.log('Mengambil pengeluaran untuk user ID:', userId);
+
+            if (!userId) {
+                console.error('User ID tidak valid:', userId);
+                return { berhasil: false, data: [], pesan: 'User ID tidak valid' };
+            }
+
             const response = await this.fetchWithFallback(API_ENDPOINTS.PENGELUARAN(userId), {
                 method: 'GET',
                 headers: this.getHeaders()
             });
 
+            console.log('Response pengeluaran:', response.status);
+
             if (response.ok) {
                 const data = await response.json();
+                console.log('Data pengeluaran berhasil diambil:', data);
                 return { berhasil: true, data };
             } else {
-                return { berhasil: false, pesan: 'Gagal mengambil data pengeluaran' };
+                const errorText = await response.text();
+                console.error('Gagal mengambil pengeluaran:', response.status, errorText);
+                return { berhasil: false, data: [], pesan: `Gagal mengambil data pengeluaran: ${response.status}` };
             }
         } catch (error) {
             console.error('Error saat mengambil pengeluaran:', error);
-            return { berhasil: false, pesan: 'Terjadi kesalahan koneksi' };
+            return { berhasil: false, data: [], pesan: 'Terjadi kesalahan koneksi' };
         }
     }
 
@@ -279,7 +307,7 @@ class TransaksiService {    /**
     static async ambilRekomendasi() {
         try {
             // Use a more reliable CORS proxy specifically for recommendations
-            const recommendationUrl = 'https://202.10.35.227/api/recommendation';
+            const recommendationUrl = 'https://smartsaku.ddns.net/api/recommendation';
             let response;
             let data; try {
                 // First try: Direct fetch with no-cors mode
@@ -340,16 +368,14 @@ class TransaksiService {    /**
                 error: error.message
             };
         }
-    }
-
-    /**
+    }    /**
      * Ambil prediksi dari API dengan CORS handling khusus
      * @returns {Promise<Object>} Response dari API
      */
     static async ambilPrediksi() {
         try {
             // Use a more reliable CORS proxy specifically for predictions
-            const predictionUrl = 'https://202.10.35.227/api/prediction';
+            const predictionUrl = 'https://smartsaku.ddns.net/api/prediction';
             let response;
             let data;
 
@@ -437,14 +463,13 @@ class TransaksiService {    /**
             hour: '2-digit',
             minute: '2-digit'
         });
-    }
-
-    /**
+    }    /**
      * Tes koneksi ke server API
      * @returns {Promise<Object>} Status koneksi server
      */    static async testConnection() {
-        try {            console.log('Testing API connection to server');
-            const response = await fetch('https://202.10.35.227/api/user/login', {
+        try {
+            console.log('Testing API connection to server');
+            const response = await fetch('https://smartsaku.ddns.net/api/user/login', {
                 method: 'OPTIONS',
                 headers: {
                     'Accept': 'application/json',
@@ -463,6 +488,119 @@ class TransaksiService {    /**
                 berhasil: false,
                 pesan: error.message,
                 error: error
+            };
+        }
+    }
+
+    /**
+     * Ambil ringkasan dashboard dengan total pemasukan, pengeluaran dan saldo
+     * @param {string} userId - ID user
+     * @returns {Promise<Object>} Data ringkasan dashboard
+     */    static async ambilRingkasanDashboard(userId) {
+        try {
+            console.log('Mengambil ringkasan dashboard untuk user ID:', userId);
+
+            if (!userId) {
+                console.error('User ID tidak valid untuk ringkasan dashboard');
+                return {
+                    berhasil: false,
+                    pesan: 'User ID tidak valid',
+                    data: {
+                        saldo: 0,
+                        pemasukan: 0,
+                        pengeluaran: 0,
+                        transaksi: 0,
+                        transaksiTerbaru: [],
+                        kategoriPengeluaran: {}
+                    }
+                };
+            }
+
+            // Ambil data pemasukan dan pengeluaran secara paralel
+            const [hasilPemasukan, hasilPengeluaran] = await Promise.all([
+                this.ambilPemasukan(userId),
+                this.ambilPengeluaran(userId)
+            ]);
+
+            console.log('Hasil ambil pemasukan:', hasilPemasukan);
+            console.log('Hasil ambil pengeluaran:', hasilPengeluaran);
+
+            // Jika salah satu gagal, kembalikan data kosong tapi tetap tampilkan UI
+            if (!hasilPemasukan.berhasil || !hasilPengeluaran.berhasil) {
+                console.error('Gagal mengambil data transaksi:',
+                    !hasilPemasukan.berhasil ? hasilPemasukan.pesan : '',
+                    !hasilPengeluaran.berhasil ? hasilPengeluaran.pesan : '');
+
+                return {
+                    berhasil: false,
+                    pesan: 'Gagal mengambil data transaksi',
+                    data: {
+                        saldo: 0,
+                        pemasukan: 0,
+                        pengeluaran: 0,
+                        transaksi: 0,
+                        transaksiTerbaru: [],
+                        kategoriPengeluaran: {}
+                    }
+                };
+            }
+
+            // Hitung total pemasukan
+            const totalPemasukan = hasilPemasukan.data.reduce((total, item) => {
+                return total + (parseInt(item.nominal) || 0);
+            }, 0);
+
+            // Hitung total pengeluaran
+            const totalPengeluaran = hasilPengeluaran.data.reduce((total, item) => {
+                return total + (parseInt(item.nominal) || 0);
+            }, 0);
+
+            // Hitung saldo (pemasukan - pengeluaran)
+            const saldo = totalPemasukan - totalPengeluaran;
+
+            // Hitung jumlah transaksi
+            const jumlahPemasukan = hasilPemasukan.data.length;
+            const jumlahPengeluaran = hasilPengeluaran.data.length;
+            const totalTransaksi = jumlahPemasukan + jumlahPengeluaran;
+
+            // Ambil transaksi terbaru (gabungan pemasukan dan pengeluaran, urutkan berdasarkan tanggal)
+            const semuaTransaksi = [
+                ...hasilPemasukan.data.map(item => ({ ...item, jenis: 'pemasukan' })),
+                ...hasilPengeluaran.data.map(item => ({ ...item, jenis: 'pengeluaran' }))
+            ].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            // Ambil 5 transaksi terbaru
+            const transaksiTerbaru = semuaTransaksi.slice(0, 5);
+
+            // Data kategori untuk chart
+            const kategoriPengeluaran = {};
+            hasilPengeluaran.data.forEach(item => {
+                const kategori = item.kategori || 'Lainnya';
+                if (!kategoriPengeluaran[kategori]) {
+                    kategoriPengeluaran[kategori] = 0;
+                }
+                kategoriPengeluaran[kategori] += (parseInt(item.nominal) || 0);
+            });
+
+            return {
+                berhasil: true,
+                data: {
+                    saldo,
+                    pemasukan: totalPemasukan,
+                    pengeluaran: totalPengeluaran,
+                    transaksi: totalTransaksi,
+                    transaksiTerbaru,
+                    kategoriPengeluaran,
+                    jumlahPemasukan,
+                    jumlahPengeluaran
+                }
+            };
+        } catch (error) {
+            console.error('Error saat mengambil ringkasan dashboard:', error);
+            return {
+                berhasil: false,
+                pesan: 'Terjadi kesalahan saat memuat data dashboard',
+                error: error.message
             };
         }
     }

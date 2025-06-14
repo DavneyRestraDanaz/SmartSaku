@@ -176,24 +176,23 @@
             </svg>
             Laporan
           </a>
-        </nav>
-        <!-- User Info -->
+        </nav>        <!-- User Info -->
         <div class="p-4 border-t border-gray-200">
           <div class="flex items-center space-x-3 mb-4">
             <div
               class="w-10 h-10 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center"
             >
-              <span id="userInitial" class="text-white font-semibold">C</span>
+              <span id="userInitial" class="text-white font-semibold"></span>
             </div>
             <div class="flex-1 min-w-0">
               <p
                 id="userName"
                 class="text-sm font-medium text-gray-900 truncate"
               >
-                coba
+                Loading...
               </p>
               <p id="userEmail" class="text-xs text-gray-500 truncate">
-                coba@gmail.com
+                Loading...
               </p>
             </div>
           </div>
@@ -259,10 +258,9 @@
           <div
             class="flex flex-col md:flex-row md:items-center md:justify-between bg-white p-4 rounded-xl shadow-sm border border-gray-100"
           >
-            <div>
-              <h1 class="text-xl font-bold text-gray-800 mb-1">
+            <div>              <h1 class="text-xl font-bold text-gray-800 mb-1">
                 Selamat datang, 
-                <span id="welcomeUserName" class="text-primary">coba!</span> 
+                <span id="welcomeUserName" class="text-primary">User!</span> 
                 <span>👋</span>
               </h1>
               <p class="text-gray-600 text-sm">Ringkasan keuangan Anda per hari ini</p>
@@ -286,7 +284,7 @@
                   id="totalSaldo"
                   class="text-2xl font-bold mt-1 dashboard-stat"
                 >
-                  Rp 1.800.000,00
+                  Rp 0,00
                 </p>
                 <p class="text-blue-100 text-xs mt-1">
                   Update terakhir: Hari ini
@@ -304,12 +302,11 @@
               class="flex items-center justify-between p-3 bg-white rounded-xl shadow-md"
             >
               <div>
-                <p class="text-sm font-medium text-gray-600">Total Pemasukan</p>
-                <p
+                <p class="text-sm font-medium text-gray-600">Total Pemasukan</p>                <p
                   id="totalPemasukan"
                   class="text-2xl font-bold text-green-600 mt-1 dashboard-stat"
                 >
-                  Rp 2.000.000,00
+                  Rp 0,00
                 </p>
                 <p class="text-green-500 text-xs mt-1">↑ 15% dari bulan lalu</p>
               </div>
@@ -339,12 +336,11 @@
               <div>
                 <p class="text-sm font-medium text-gray-600">
                   Total Pengeluaran
-                </p>
-                <p
+                </p>                <p
                   id="totalPengeluaran"
                   class="text-2xl font-bold text-red-600 mt-1 dashboard-stat"
                 >
-                  Rp 200.000,00
+                  Rp 0,00
                 </p>
                 <p class="text-red-500 text-xs mt-1">↓ 10% dari bulan lalu</p>
               </div>
@@ -374,14 +370,13 @@
               <div>
                 <p class="text-yellow-100 text-sm font-medium">
                   Transaksi Bulan Ini
-                </p>
-                <p
+                </p>                <p
                   id="totalTransaksi"
                   class="text-2xl font-bold mt-1 dashboard-stat"
                 >
-                  2
+                  0
                 </p>
-                <p class="text-yellow-100 text-xs mt-1">vs. 3 bulan lalu (5)</p>
+                <p class="text-yellow-100 text-xs mt-1">vs. 0 bulan lalu (0)</p>
               </div>
               <div
                 class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center"
@@ -404,23 +399,17 @@
           </div>
         </div>        <!-- Charts Section -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4"><!-- Pemasukan vs Pengeluaran Chart -->
-          <div class="bg-white rounded-xl shadow-sm p-3 border border-gray-100">
-            <h3 class="text-lg font-semibold text-gray-900 mb-2">
-              Pemasukan vs Pengeluaran
-            </h3>
-            <div class="chart-container">
+          <div class="bg-white rounded-xl shadow-sm p-3 border border-gray-100">            <div class="chart-container" style="height: 300px; position: relative;">
               <canvas id="chartPemasukanPengeluaran"></canvas>
             </div>
+            <p class="text-xs text-gray-500 text-center italic mt-2">*Data bulan Juni menampilkan saldo aktual</p>
           </div>          <!-- Kategori Pengeluaran Chart -->
           <div class="bg-white rounded-xl shadow-sm p-3 border border-gray-100">
-            <h3 class="text-lg font-semibold text-gray-900 mb-2">
-              Kategori Pengeluaran
-            </h3>
-            <div class="chart-container">
+            <div class="chart-container" style="height: 300px; position: relative;">
               <canvas id="chartKategoriPengeluaran"></canvas>
             </div>
           </div>
-        </div>        <!-- Transaksi Terbaru -->        <div class="bg-white rounded-xl shadow-sm border border-gray-100">
+        </div><!-- Transaksi Terbaru -->        <div class="bg-white rounded-xl shadow-sm border border-gray-100">
           <div class="p-3 border-b border-gray-200">
             <h3 class="text-lg font-semibold text-gray-900">
               Transaksi Terbaru
@@ -502,7 +491,7 @@
                       <div>
                         <h4 class="text-white font-medium text-sm uppercase tracking-wider mb-1">Recommendation</h4>
                         <p class="text-white font-medium" id="recommendation-text">
-                          Loading recommendation...
+                         Hasil Rekomendasi: Kerja bagus! Pengeluaranmu hari ini terkontrol dengan baik. Pertahankan!
                         </p>
                         <p class="text-blue-100 text-xs mt-1">
                           Smart spending patterns analysis
@@ -540,7 +529,7 @@
                       <div>
                         <h4 class="text-white font-medium text-sm uppercase tracking-wider mb-1">Prediction</h4>
                         <p class="text-white font-medium" id="prediction-text">
-                          Loading prediction data...
+                          Model dan scaler berhasil dimuat.
                         </p>
                         <p class="text-blue-100 text-xs mt-1">
                           AI-powered financial insights
@@ -590,7 +579,7 @@
                           stroke-linecap="round"
                           stroke-linejoin="round"
                           stroke-width="2"
-                          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                          d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                         ></path>
                       </svg>
                     </div>
@@ -638,42 +627,60 @@
             </div>
           </div>
         </div>
-      </div>
-      <!-- Transaksi Section -->
+      </div>      <!-- Transaksi Section -->
       <div id="transaksiSection" class="section-content p-6 hidden">
         <!-- Tab Navigation -->
         <div class="mb-6">
-          <div class="flex space-x-1 bg-gray-100 p-1 rounded-lg">
-            <button              id="tabPemasukan"
-              class="tab-button flex-1 py-2 px-4 text-sm font-medium rounded-md transition-colors bg-white text-emerald-600 shadow-sm border border-emerald-100"
+          <div class="flex bg-white p-0 rounded-lg border border-gray-200 overflow-hidden">
+            <button
+              id="tabPemasukan"
+              class="tab-button flex-1 py-3 px-6 text-sm font-medium transition-colors bg-green-50 text-green-600 border-b-2 border-green-500"
             >
               Pemasukan
             </button>
             <button
               id="tabPengeluaran"
-              class="tab-button flex-1 py-2 px-4 text-sm font-medium rounded-md transition-colors text-gray-500 hover:text-gray-700"
+              class="tab-button flex-1 py-3 px-6 text-sm font-medium transition-colors text-gray-700 hover:bg-gray-50"
             >
               Pengeluaran
             </button>
           </div>
-        </div>        <!-- Add Transaction Button -->
+        </div>
+
+        <!-- Add Transaction Button -->
         <div class="mb-6">
           <button
             id="btnTambahTransaksi"
-            class="bg-gradient-to-r from-emerald-500 to-emerald-700 text-white px-6 py-3 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 border border-emerald-600"
+            class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md font-medium shadow-sm transition-all duration-300 flex items-center"
           >
-            + Tambah Transaksi
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+            </svg>
+            Tambah Transaksi
           </button>
         </div>
 
         <!-- Transaksi Content -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100">
-          <div class="p-6">
-            <div id="daftarTransaksi" class="space-y-4">
-              <!-- Daftar transaksi akan dimuat di sini -->
-            </div>
+        <div class="bg-white rounded-xl shadow-sm">
+          <div id="loadingTransaksi" class="p-8 text-center hidden">
+            <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-gray-300"></div>
+            <p class="mt-2 text-gray-500">Memuat data transaksi...</p>
           </div>
-        </div>      </div>
+          
+          <div id="emptyTransaksi" class="p-16 text-center hidden">
+            <svg class="w-16 h-16 mx-auto text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+            </svg>
+            <p class="mt-4 text-gray-500 font-medium">Belum ada transaksi</p>
+            <p class="mt-2 text-gray-400 text-sm">Silakan tambahkan transaksi baru untuk mulai melacak keuangan Anda.</p>
+            <button id="btnTambahTransaksiEmpty" class="mt-4 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md text-sm font-medium">Tambah Transaksi</button>
+          </div>
+          
+          <div id="daftarTransaksi" class="divide-y divide-gray-100">
+            <!-- Daftar transaksi akan dimuat di sini -->
+          </div>
+        </div>
+      </div>
 
       <!-- Notifikasi Section -->
       <div id="notifikasiSection" class="section-content p-6 hidden">
@@ -713,8 +720,8 @@
               <div class="flex items-start">
                 <div class="flex-shrink-0 bg-green-100 rounded-full p-2 mr-3">
                   <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
-                  </svg>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"
+                  ></path>
                 </div>
                 <div class="flex-1">
                   <p class="font-medium text-gray-800">Transaksi Berhasil</p>
@@ -735,7 +742,7 @@
                 <div class="flex-shrink-0 bg-yellow-100 rounded-full p-2 mr-3">
                   <svg class="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
-                  </svg>
+                </svg>
                 </div>
                 <div class="flex-1">
                   <p class="font-medium text-gray-800">Peringatan Anggaran</p>
@@ -772,13 +779,22 @@
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          </div>      </div>
       </div>
 
       <!-- Simulasi Section -->
       <div id="simulasiSection" class="section-content p-6 hidden">
         <h2 class="text-2xl font-bold mb-4">Simulasi Keuangan</h2>
+        
+        <!-- Script untuk integrasi fitur simulasi -->
+        <script type="module">
+          import { setupSimulasiHandlers } from '../js/simulationHandlers.js';
+          
+          document.addEventListener('DOMContentLoaded', () => {
+            // Setup event handlers untuk simulasi
+            setupSimulasiHandlers();
+          });
+        </script>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <!-- Simulasi Tabungan -->
@@ -1257,5 +1273,1292 @@
         window.addEventListener("resize", adjustLayout);      });
     </script>
     <script type="module" src="../main.js"></script>
+    <!-- User Data Script - Tempatkan di bagian bawah body sebelum menutup body tag -->
+    <script>
+      // Fungsi untuk memuat data user
+      function loadUserData() {
+        try {
+          const userData = localStorage.getItem('user');
+          
+          if (userData) {
+            const user = JSON.parse(userData);
+            console.log('User data loaded:', user);
+            
+            // Update username di sidebar
+            document.getElementById('userName').textContent = user.name || 'User';
+            document.getElementById('userEmail').textContent = user.email || '';
+            
+            // Update inisial user
+            if (user.name) {
+              document.getElementById('userInitial').textContent = user.name.charAt(0).toUpperCase();
+            }
+            
+            // Update welcome message
+            const welcomeEl = document.getElementById('welcomeUserName');
+            if (welcomeEl && user.name) {
+              welcomeEl.textContent = user.name + '!';
+            }
+            
+          } else {
+            console.warn('No user data found');
+            // Redirect to login page if no user data
+            window.location.href = '/SmartSaku/src/templates/login.html';
+          }
+        } catch (error) {
+          console.error('Error loading user data:', error);
+        }
+      }
+      
+      // Fungsi untuk logout
+      function setupLogout() {
+        const btnLogout = document.getElementById('btnLogout');
+        if (btnLogout) {
+          btnLogout.addEventListener('click', function() {
+            localStorage.removeItem('user');
+            localStorage.removeItem('token');
+            window.location.href = '/SmartSaku/src/templates/login.html';
+          });
+        }
+      }
+      
+      // Fungsi untuk mengatur tanggal saat ini
+      function setCurrentDate() {
+        const dateEl = document.getElementById('currentDate');
+        if (dateEl) {
+          const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+          const today = new Date();
+          dateEl.textContent = today.toLocaleDateString('id-ID', options);
+        }
+      }
+      
+      // Fungsi untuk memuat data keuangan
+      function loadFinancialData() {
+        try {
+          const user = JSON.parse(localStorage.getItem('user'));
+          const token = localStorage.getItem('token');
+          
+          if (!user || !token) {
+            console.warn('Missing user data or token');
+            return;
+          }
+          
+          // Coba ambil data dari API - jika gagal, gunakan data dummy
+          updateDashboardUI({
+            saldo: 0,
+            pemasukan: 0,
+            pengeluaran: 0,
+            transaksi: 0
+          });
+          
+          /*
+          // Kode untuk mengambil data dari API (dikomentari sampai API siap)
+          fetch(`https://smartsaku.ddns.net/api/users/${user.id}/dashboard`, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          })
+          .then(response => {
+            if (!response.ok) throw new Error('Failed to fetch dashboard data');
+            return response.json();
+          })
+          .then(data => {
+            updateDashboardUI(data);
+          })
+          .catch(error => {
+            console.error('Error fetching dashboard data:', error);
+            // Fallback ke data dummy jika API gagal
+            updateDashboardUI({
+              saldo: 0,
+              pemasukan: 0,
+              pengeluaran: 0,
+              transaksi: 0
+            });
+          });
+          */
+        } catch (error) {
+          console.error('Error in loadFinancialData:', error);
+        }
+      }
+      
+      // Fungsi untuk memperbarui UI dengan data keuangan
+      function updateDashboardUI(data) {
+        // Format angka sebagai mata uang
+        function formatCurrency(amount) {
+          return new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
+          }).format(amount);
+        }
+        
+        // Update saldo dan transaksi
+        document.getElementById('totalSaldo').textContent = formatCurrency(data.saldo);
+        document.getElementById('totalPemasukan').textContent = formatCurrency(data.pemasukan);
+        document.getElementById('totalPengeluaran').textContent = formatCurrency(data.pengeluaran);
+        document.getElementById('totalTransaksi').textContent = data.transaksi;
+        
+        // Perbarui chart jika data tersedia
+        updateCharts(data);
+      }
+      
+      // Fungsi untuk memperbarui grafik
+      function updateCharts(data) {
+        // Contoh implementasi chart jika dibutuhkan
+        // Kode chart bisa ditambahkan di sini
+      }
+      
+      // Jalankan saat halaman dimuat
+      document.addEventListener('DOMContentLoaded', function() {
+        loadUserData();
+        setupLogout();
+        setCurrentDate();
+        loadFinancialData(); // Tambahkan fungsi baru
+      });
+    </script>    <!-- Script untuk memuat data dashboard -->
+    <script type="module">
+      import TransaksiService from "/SmartSaku/src/services/TransaksiService.js";
+      
+      document.addEventListener('DOMContentLoaded', async function() {
+        try {
+          // Cek apakah ada user yang login
+          const userData = localStorage.getItem('user');
+          if (!userData) {
+            console.warn('User tidak ditemukan, dialihkan ke login');
+            window.location.href = '/SmartSaku/src/templates/login.html';
+            return;
+          }
+          
+          const user = JSON.parse(userData);
+          console.log('User object dari localStorage:', user);
+          
+          // ID pengguna bisa berada di user._id atau langsung di user.id
+          const userId = user._id || user.id;
+          console.log('User ID yang akan digunakan:', userId);
+          
+          // Pastikan userId ada dan valid
+          if (!userId) {
+            console.warn('User ID tidak ditemukan di data user!');
+            console.error('Tidak ada ID user yang valid di localStorage');
+            // Tampilkan data kosong tapi tetap jalankan aplikasi
+            updateDashboardData({
+              saldo: 0,
+              pemasukan: 0,
+              pengeluaran: 0,
+              transaksi: 0,
+              transaksiTerbaru: [],
+              kategoriPengeluaran: {}
+            });
+            return;
+          }
+            try {
+            console.log('Mencoba mengambil ringkasan dashboard dengan ID:', userId);
+            await updateDashboard();
+            
+            // Expose updateDashboard to window object for use from transaction section
+            window.updateDashboard = updateDashboard;
+            
+            async function updateDashboard() {
+              const ringkasan = await TransaksiService.ambilRingkasanDashboard(userId);
+              console.log('Ringkasan dashboard:', ringkasan);
+              
+              if (ringkasan.berhasil && ringkasan.data) {
+                updateDashboardData(ringkasan.data);
+              } else {
+                console.error('Gagal memuat data dashboard:', ringkasan.pesan);
+                // Tetap tampilkan UI dengan data kosong
+                if (ringkasan.data) {
+                  updateDashboardData(ringkasan.data);
+                } else {
+                  updateDashboardData({
+                    saldo: 0,
+                    pemasukan: 0,
+                    pengeluaran: 0,
+                    transaksi: 0,
+                    transaksiTerbaru: [],
+                    kategoriPengeluaran: {}
+                  });
+                }
+              }
+            }
+          } catch (dashboardError) {
+            console.error('Error saat mengambil ringkasan dashboard:', dashboardError);
+            // Tetap tampilkan UI dengan data kosong jika terjadi error
+            updateDashboardData({
+              saldo: 0,
+              pemasukan: 0,
+              pengeluaran: 0,
+              transaksi: 0,
+              transaksiTerbaru: [],
+              kategoriPengeluaran: {}
+            });
+          }
+          
+        } catch (error) {
+          console.error('Error memuat data transaksi:', error);
+        }
+      });
+      
+      // Fungsi untuk memperbarui tampilan dashboard
+      function updateDashboardData(data) {
+        // Format mata uang
+        const formatCurrency = (amount) => {
+          return new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0
+          }).format(amount);
+        };
+        
+        // Update saldo dan statistik
+        document.getElementById('totalSaldo').textContent = formatCurrency(data.saldo);
+        document.getElementById('totalPemasukan').textContent = formatCurrency(data.pemasukan);
+        document.getElementById('totalPengeluaran').textContent = formatCurrency(data.pengeluaran);
+        document.getElementById('totalTransaksi').textContent = data.transaksi;
+        
+        // Perbarui transaksi terbaru jika ada
+        const transaksiTerbaruEl = document.getElementById('transaksiTerbaru');
+        if (transaksiTerbaruEl && data.transaksiTerbaru && data.transaksiTerbaru.length > 0) {
+          transaksiTerbaruEl.innerHTML = ''; // Bersihkan konten lama
+          
+          data.transaksiTerbaru.forEach(transaksi => {
+            const jenisClass = transaksi.jenis === 'pemasukan' ? 'text-green-600' : 'text-red-600';
+            const iconClass = transaksi.jenis === 'pemasukan' ? 'text-green-500' : 'text-red-500';
+            const iconSvg = transaksi.jenis === 'pemasukan' 
+              ? `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12"></path>`
+              : `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 13l-5 5m0 0l-5-5m5 5V6"></path>`;
+            
+            const transaksiItem = document.createElement('div');
+            transaksiItem.className = 'flex items-center justify-between p-3 bg-white shadow-sm rounded-lg border border-gray-100';
+            transaksiItem.innerHTML = `
+              <div class="flex items-center">
+                <div class="w-10 h-10 ${transaksi.jenis === 'pemasukan' ? 'bg-green-100' : 'bg-red-100'} rounded-full flex items-center justify-center mr-3">
+                  <svg class="w-5 h-5 ${iconClass}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    ${iconSvg}
+                  </svg>
+                </div>
+                <div>
+                  <p class="font-medium">${transaksi.kategori || 'Tidak ada kategori'}</p>
+                  <p class="text-sm text-gray-500">${transaksi.deskripsi || '-'}</p>
+                  <p class="text-xs text-gray-400">${new Date(transaksi.date).toLocaleDateString('id-ID', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                  })}</p>
+                </div>
+              </div>
+              <div class="${jenisClass} font-semibold">${formatCurrency(transaksi.nominal)}</div>
+            `;
+            
+            transaksiTerbaruEl.appendChild(transaksiItem);
+          });
+          
+        } else if (transaksiTerbaruEl) {
+          transaksiTerbaruEl.innerHTML = `
+            <div class="text-center py-8 text-gray-500">
+              <svg class="w-12 h-12 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+              </svg>
+              <p>Belum ada transaksi</p>
+            </div>
+          `;
+        }
+        
+        // Perbarui chart jika ada data
+        updateCharts(data);
+      }
+      
+      // Fungsi untuk memperbarui chart
+      function updateCharts(data) {
+        try {          // Chart Arus Kas Bulanan (Line Chart)
+          const chartPemasukanPengeluaranEl = document.getElementById('chartPemasukanPengeluaran');
+          if (chartPemasukanPengeluaranEl) {
+            // Generate data untuk 6 bulan terakhir
+            const months = getLastSixMonths();
+            
+            // Buat data dummy yang menunjukkan tren naik untuk pemasukan dan peng
+
+            let base
+            let basePemasukan = data.pemasukan > 0 ? data.pemasukan / 2 : 600000;
+            let basePengeluaran = data.pengeluaran > 0 ? data.pengeluaran / 1.5 : 500000;
+            const pemasukanData = [];
+            const pengeluaranData = [];
+            
+            // Simulasi tren naik untuk demo
+            for (let i = 0; i < 6; i++) {
+              // Pemasukan naik lebih cepat dari pengeluaran, mirip dengan contoh
+              pemasukanData.push(basePemasukan + (basePemasukan * i * 0.1));
+              pengeluaranData.push(basePengeluaran + (basePengeluaran * i * 0.05));
+            }
+            
+            // Set data terakhir ke nilai aktual
+            pemasukanData[5] = data.pemasukan > 0 ? data.pemasukan : pemasukanData[5];
+            pengeluaranData[5] = data.pengeluaran > 0 ? data.pengeluaran : pengeluaranData[5];
+            
+            const chartPemasukanPengeluaran = new Chart(chartPemasukanPengeluaranEl, {
+              type: 'line',
+              data: {
+                labels: months,
+                datasets: [
+                  {
+                    label: 'Pemasukan',
+                    data: pemasukanData,
+                    borderColor: 'rgba(96, 165, 250, 1)',  // Biru
+                    backgroundColor: 'rgba(219, 234, 254, 0.3)', // Latar biru transparan
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 4,
+                    pointBackgroundColor: '#ffffff',
+                    pointBorderColor: 'rgba(96, 165, 250, 1)',
+                    pointBorderWidth: 2,
+                  },
+                  {
+                    label: 'Pengeluaran',
+                    data: pengeluaranData,
+                    borderColor: 'rgba(220, 38, 38, 0.8)', // Merah
+                    backgroundColor: 'rgba(254, 226, 226, 0.3)', // Latar merah transparan
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 4,
+                    pointBackgroundColor: '#ffffff',
+                    pointBorderColor: 'rgba(220, 38, 38, 0.8)',
+                    pointBorderWidth: 2,
+                  }
+                ]
+              },              options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                  legend: {
+                    position: 'bottom',
+                    align: 'start',
+                    labels: {
+                      usePointStyle: true,
+                      boxWidth: 10,
+                      boxHeight: 10
+                    }
+                  },
+                  title: {
+                    display: true,
+                    text: 'Arus Kas Bulanan',
+                    align: 'start',
+                    font: {
+                      size: 16,
+                      weight: 'bold'
+                    }
+                  },
+                  tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                    callbacks: {
+                      label: function(context) {
+                        return context.dataset.label + ': ' + new Intl.NumberFormat('id-ID', {
+                          style: 'currency',
+                          currency: 'IDR',
+                          minimumFractionDigits: 0
+                        }).format(context.parsed.y);
+                      }
+                    }
+                  }
+                },
+                interaction: {
+                  mode: 'nearest',
+                  axis: 'x',
+                  intersect: false
+                },
+                scales: {
+                  y: {
+                    beginAtZero: false,
+                    grid: {
+                      color: 'rgba(0, 0, 0, 0.05)'
+                    },
+                    ticks: {
+                      callback: function(value) {
+                        if (value >= 1000000) {
+                          return 'Rp ' + (value / 1000000).toLocaleString('id-ID') + ' jt';
+                        } else if (value >= 1000) {
+                          return 'Rp ' + (value / 1000).toLocaleString('id-ID') + ' rb';
+                        }
+                        return 'Rp ' + value.toLocaleString('id-ID');
+                      }
+                    }
+                  },
+                  x: {
+                    grid: {
+                      display: false
+                    }
+                  }
+                }
+              }
+            });
+          }
+            // Chart Kategori Pengeluaran
+          const chartKategoriPengeluaranEl = document.getElementById('chartKategoriPengeluaran');
+          if (chartKategoriPengeluaranEl && data.kategoriPengeluaran) {
+            const labels = Object.keys(data.kategoriPengeluaran);
+            const values = Object.values(data.kategoriPengeluaran);
+            
+            if (labels.length > 0) {
+              const chartKategoriPengeluaran = new Chart(chartKategoriPengeluaranEl, {
+                type: 'doughnut',
+                data: {
+                  labels: labels,
+                  datasets: [{
+                    data: values,
+                    backgroundColor: [
+                      'rgba(96, 165, 250, 0.9)',  // Biru
+                      'rgba(220, 38, 38, 0.9)',   // Merah
+                      'rgba(74, 222, 128, 0.9)',  // Hijau
+                      'rgba(245, 158, 11, 0.9)',  // Kuning
+                      'rgba(139, 92, 246, 0.9)',  // Ungu
+                      'rgba(236, 72, 153, 0.9)'   // Pink
+                    ],
+                    borderWidth: 0,
+                    hoverOffset: 5,
+                    cutout: '60%' // Membuat lubang di tengah donut chart lebih besar
+                  }]
+                },
+                options: {
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  layout: {
+                    padding: 10
+                  },
+                  plugins: {
+                    legend: {
+                      position: 'right',
+                      align: 'center',
+                      labels: {
+                        boxWidth: 12,
+                        padding: 15,
+                        font: {
+                          size: 11
+                        }
+                      }
+                    },
+                    title: {
+                      display: true,
+                      text: 'Kategori Pengeluaran',
+                      align: 'start',
+                      font: {
+                        size: 16,
+                        weight: 'bold'
+                      },
+                      padding: {
+                        bottom: 10
+                      }
+                    },
+                    tooltip: {
+                      callbacks: {
+                        label: function(context) {
+                          const label = context.label || '';
+                          const value = context.formattedValue;
+                          const total = context.dataset.data.reduce((acc, val) => acc + val, 0);
+                          const percentage = Math.round((context.parsed / total) * 100);
+                          return `${label}: ${value} (${percentage}%)`;
+                        }
+                      }
+                    }
+                  }
+                }
+              });
+            } else {
+              chartKategoriPengeluaranEl.parentNode.innerHTML = `
+                <div class="text-center py-8 text-gray-500">
+                  <p>Belum ada data pengeluaran</p>
+                </div>
+              `;
+            }
+          }
+        } catch (error) {
+          console.error('Error updating charts:', error);
+        }
+      }
+      
+      // Fungsi untuk mendapatkan nama 6 bulan terakhir
+      function getLastSixMonths() {
+        const months = [];
+        const now = new Date();
+        const monthNames = [
+          'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+          'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+        ];
+        
+        for (let i = 5; i >= 0; i--) {
+          // Get previous months (5 months back + current)
+          const month = new Date(now.getFullYear(), now.getMonth() - i, 1);
+          months.push(monthNames[month.getMonth()]);
+        }
+        
+        return months;
+      }
+    </script>
+    <!-- Script untuk mengelola transaksi -->
+    <script type="module">
+      import TransaksiService from "/SmartSaku/src/services/TransaksiService.js";
+      
+      // Variabel global untuk menyimpan transaksi yang sedang dipilih
+      let currentTransactionType = 'pemasukan';
+      let isLoadingTransaksi = false;
+      
+      document.addEventListener('DOMContentLoaded', function() {
+        // Setup tombol tab
+        setupTabs();
+        
+        // Setup tambah transaksi
+        setupTambahTransaksi();
+        
+        // Load transaksi saat halaman dimuat
+        loadTransaksi();
+      });
+      
+      // Setup event listeners untuk tab pemasukan/pengeluaran
+      function setupTabs() {
+        const tabPemasukan = document.getElementById('tabPemasukan');
+        const tabPengeluaran = document.getElementById('tabPengeluaran');
+        
+        if (tabPemasukan && tabPengeluaran) {
+          tabPemasukan.addEventListener('click', function() {
+            currentTransactionType = 'pemasukan';
+            setActiveTab(tabPemasukan, tabPengeluaran);
+            loadTransaksi();
+          });
+          
+          tabPengeluaran.addEventListener('click', function() {
+            currentTransactionType = 'pengeluaran';
+            setActiveTab(tabPengeluaran, tabPemasukan);
+            loadTransaksi();
+          });
+        }
+      }
+      
+      // Setup event listeners untuk tombol tambah transaksi
+      function setupTambahTransaksi() {
+        const btnTambahTransaksi = document.getElementById('btnTambahTransaksi');
+        const btnTambahTransaksiEmpty = document.getElementById('btnTambahTransaksiEmpty');
+        const modalTransaksi = document.getElementById('modalTransaksi');
+        
+        if (btnTambahTransaksi) {
+          btnTambahTransaksi.addEventListener('click', function() {
+            openTransaksiModal();
+          });
+        }
+        
+        if (btnTambahTransaksiEmpty) {
+          btnTambahTransaksiEmpty.addEventListener('click', function() {
+            openTransaksiModal();
+          });
+        }
+        
+        // Setup form submit
+        const formTransaksi = document.getElementById('formTransaksi');
+        if (formTransaksi) {
+          formTransaksi.addEventListener('submit', handleSubmitTransaksi);
+        }
+      }
+      
+      // Fungsi untuk mengatur tab aktif
+      function setActiveTab(activeTab, inactiveTab) {
+        // Active tab
+        activeTab.classList.add('bg-green-50', 'text-green-600', 'border-b-2', 'border-green-500');
+        activeTab.classList.remove('text-gray-700');
+        
+        // Inactive tab
+        inactiveTab.classList.remove('bg-green-50', 'text-green-600', 'border-b-2', 'border-green-500');
+        inactiveTab.classList.add('text-gray-700');
+      }
+      
+      // Fungsi untuk memuat transaksi
+      async function loadTransaksi() {
+        const userId = getUserId();
+        if (!userId) return;
+        
+        const daftarTransaksi = document.getElementById('daftarTransaksi');
+        const loadingTransaksi = document.getElementById('loadingTransaksi');
+        const emptyTransaksi = document.getElementById('emptyTransaksi');
+        
+        if (!daftarTransaksi || !loadingTransaksi || !emptyTransaksi) return;
+        
+        try {
+          // Tampilkan loading
+          daftarTransaksi.innerHTML = '';
+          daftarTransaksi.classList.add('hidden');
+          loadingTransaksi.classList.remove('hidden');
+          emptyTransaksi.classList.add('hidden');
+          isLoadingTransaksi = true;
+          
+          // Ambil data transaksi
+          let result;
+          if (currentTransactionType === 'pemasukan') {
+            result = await TransaksiService.ambilPemasukan(userId);
+          } else {
+            result = await TransaksiService.ambilPengeluaran(userId);
+          }
+          
+          isLoadingTransaksi = false;
+          loadingTransaksi.classList.add('hidden');
+          
+          if (result.berhasil && result.data && result.data.length > 0) {
+            // Ada transaksi, tampilkan dalam list
+            daftarTransaksi.classList.remove('hidden');
+            renderTransaksi(result.data);
+          } else {
+            // Tidak ada transaksi, tampilkan pesan kosong
+            emptyTransaksi.classList.remove('hidden');
+          }
+        } catch (error) {
+          console.error('Error loading transaksi:', error);
+          isLoadingTransaksi = false;
+          loadingTransaksi.classList.add('hidden');
+          emptyTransaksi.classList.remove('hidden');
+        }
+      }
+      
+      // Fungsi untuk render daftar transaksi
+      function renderTransaksi(transaksiList) {
+        const daftarTransaksi = document.getElementById('daftarTransaksi');
+        if (!daftarTransaksi) return;
+        
+        daftarTransaksi.innerHTML = '';
+        
+        transaksiList.forEach(transaksi => {
+          const transaksiEl = document.createElement('div');
+          transaksiEl.className = 'p-4 hover:bg-gray-50 transition-colors flex justify-between items-center';
+          transaksiEl.dataset.id = transaksi._id;
+          
+          const date = new Date(transaksi.date);
+          const formattedDate = date.toLocaleDateString('id-ID', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+          });
+          
+          const formattedAmount = new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0
+          }).format(transaksi.nominal);
+          
+          transaksiEl.innerHTML = `
+            <div class="flex items-center">
+              <div class="mr-3 w-10 h-10 flex-shrink-0 bg-${currentTransactionType === 'pemasukan' ? 'green' : 'red'}-100 rounded-full flex items-center justify-center">
+                <svg class="w-5 h-5 text-${currentTransactionType === 'pemasukan' ? 'green' : 'red'}-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  ${currentTransactionType === 'pemasukan' 
+                    ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>'
+                    : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>'}
+                </svg>
+              </div>
+              <div>
+                <p class="font-medium text-gray-800">${transaksi.kategori || 'Tidak ada kategori'}</p>
+                <p class="text-sm text-gray-500">${transaksi.deskripsi || '-'}</p>
+                <p class="text-xs text-gray-400">${formattedDate}</p>
+              </div>
+            </div>
+            <div class="flex items-center">
+              <span class="font-semibold text-${currentTransactionType === 'pemasukan' ? 'green' : 'red'}-600">${formattedAmount}</span>
+              <div class="ml-4 flex space-x-2">
+                <button class="btn-edit-transaksi text-gray-400 hover:text-blue-500">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                  </svg>
+                </button>
+                <button class="btn-hapus-transaksi text-gray-400 hover:text-red-500">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          `;
+          
+          // Setup tombol edit dan hapus
+          const btnEdit = transaksiEl.querySelector('.btn-edit-transaksi');
+          if (btnEdit) {
+            btnEdit.addEventListener('click', () => editTransaksi(transaksi));
+          }
+          
+          const btnHapus = transaksiEl.querySelector('.btn-hapus-transaksi');
+          if (btnHapus) {
+            btnHapus.addEventListener('click', () => hapusTransaksi(transaksi._id));
+          }
+          
+          daftarTransaksi.appendChild(transaksiEl);
+        });
+      }
+      
+      // Fungsi untuk mendapatkan user ID
+      function getUserId() {
+        try {
+          const userData = localStorage.getItem('user');
+          if (!userData) return null;
+          
+          const user = JSON.parse(userData);
+          return user._id || user.id;
+        } catch (error) {
+          console.error('Error getting user ID:', error);
+          return null;
+        }
+      }
+      
+      // Fungsi untuk membuka modal transaksi
+      function openTransaksiModal() {
+        const modalTransaksi = document.getElementById('modalTransaksi');
+        const modalTitle = document.getElementById('modalTitle');
+        const jenisTransaksi = document.getElementById('jenisTransaksi');
+        const formTransaksi = document.getElementById('formTransaksi');
+        
+        if (modalTransaksi && modalTitle && jenisTransaksi && formTransaksi) {
+          // Reset form
+          formTransaksi.reset();
+          document.getElementById('transaksiId').value = '';
+          
+          // Set jenis transaksi
+          jenisTransaksi.value = currentTransactionType;
+          
+          // Set judul modal
+          modalTitle.textContent = currentTransactionType === 'pemasukan' ? 
+            'Tambah Pemasukan' : 'Tambah Pengeluaran';
+          
+          // Tampilkan modal
+          modalTransaksi.classList.remove('hidden');
+          modalTransaksi.style.display = 'flex';
+        }
+      }
+      
+      // Handle submit form transaksi
+      async function handleSubmitTransaksi(e) {
+        e.preventDefault();
+        
+        const userId = getUserId();
+        if (!userId) return;
+        
+        const transaksiId = document.getElementById('transaksiId').value;
+        const jenisTransaksi = document.getElementById('jenisTransaksi').value;
+        const nominal = document.getElementById('nominal').value;
+        const kategori = document.getElementById('kategori').value;
+        const deskripsi = document.getElementById('deskripsi').value;
+        
+        if (!nominal || !kategori) return;
+        
+        const data = {
+          nominal: parseInt(nominal),
+          kategori,
+          deskripsi
+        };
+        
+        try {
+          let result;
+          
+          if (transaksiId) {
+            // Update existing
+            if (jenisTransaksi === 'pemasukan') {
+              result = await TransaksiService.updatePemasukan(userId, transaksiId, data);
+            } else {
+              result = await TransaksiService.updatePengeluaran(userId, transaksiId, data);
+            }
+          } else {
+            // Add new
+            if (jenisTransaksi === 'pemasukan') {
+              result = await TransaksiService.tambahPemasukan(userId, data);
+            } else {
+              result = await TransaksiService.tambahPengeluaran(userId, data);
+            }
+          }
+          
+          const modalTransaksi = document.getElementById('modalTransaksi');
+          if (modalTransaksi) {
+            modalTransaksi.classList.add('hidden');
+            modalTransaksi.style.display = 'none';
+          }
+          
+          // Reload data
+          loadTransaksi();
+          
+          // Also reload dashboard data if we're on dashboard
+          if (window.updateDashboard) {
+            window.updateDashboard();
+          }
+          
+        } catch (error) {
+          console.error('Error saving transaksi:', error);
+        }
+      }
+      
+      // Edit transaksi
+      function editTransaksi(transaksi) {
+        const modalTransaksi = document.getElementById('modalTransaksi');
+        const modalTitle = document.getElementById('modalTitle');
+        const transaksiId = document.getElementById('transaksiId');
+        const jenisTransaksi = document.getElementById('jenisTransaksi');
+        const nominal = document.getElementById('nominal');
+        const kategori = document.getElementById('kategori');
+        const deskripsi = document.getElementById('deskripsi');
+        
+        if (modalTransaksi && modalTitle && transaksiId && jenisTransaksi &&
+            nominal && kategori && deskripsi) {
+          
+          modalTitle.textContent = currentTransactionType === 'pemasukan' ? 
+            'Edit Pemasukan' : 'Edit Pengeluaran';
+          
+          transaksiId.value = transaksi._id;
+          jenisTransaksi.value = currentTransactionType;
+          nominal.value = transaksi.nominal;
+          kategori.value = transaksi.kategori || '';
+          deskripsi.value = transaksi.deskripsi || '';
+          
+          modalTransaksi.classList.remove('hidden');
+          modalTransaksi.style.display = 'flex';
+        }
+      }
+      
+      // Hapus transaksi
+      async function hapusTransaksi(id) {
+        if (!id) return;
+        
+        const userId = getUserId();
+        if (!userId) return;
+        
+        if (!confirm('Apakah Anda yakin ingin menghapus transaksi ini?')) return;
+        
+        try {
+          let result;
+          
+          if (currentTransactionType === 'pemasukan') {
+            result = await TransaksiService.hapusPemasukan(userId, id);
+          } else {
+            result = await TransaksiService.hapusPengeluaran(userId, id);
+          }
+          
+          // Reload data
+          loadTransaksi();
+          
+          // Also reload dashboard data if we're on dashboard
+          if (window.updateDashboard) {
+            window.updateDashboard();
+          }
+          
+        } catch (error) {
+          console.error('Error deleting transaksi:', error);
+        }
+      }
+      
+      // Expose this function for dashboard to call
+      window.loadTransaksi = loadTransaksi;
+    </script>
+
+    <!-- Chat AI Popup -->
+    <div id="chatPopup" class="fixed bottom-4 right-4 z-50 hidden">
+      <div class="bg-white rounded-2xl shadow-2xl border border-gray-200 w-80 max-w-sm">
+        <!-- Chat Header -->
+        <div class="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-4 rounded-t-2xl flex items-center justify-between">
+          <div class="flex items-center space-x-3">
+            <div class="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12c0 1.54.36 3.04 1.05 4.4L2 22l5.6-1.05C9.96 21.64 11.46 22 13 22h7c1.1 0 2-.9 2-2V12c0-5.52-4.48-10-10-10zm0 18c-1.4 0-2.78-.35-4-.99L6 20l.99-2C6.35 16.78 6 15.4 6 14c0-3.31 2.69-6 6-6s6 2.69 6 6-2.69 6-6 6z"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-semibold">SmartSaku AI</h3>
+              <div class="flex items-center text-xs opacity-80">
+                <div class="w-2 h-2 bg-green-400 rounded-full mr-1"></div>
+                Online
+              </div>
+            </div>
+          </div>
+          <button id="closeChatBtn" class="text-white hover:text-gray-200 transition-colors">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Chat Messages -->
+        <div id="chatMessages" class="h-80 overflow-y-auto p-4 space-y-3 bg-gray-50">
+          <!-- Welcome Message -->
+          <div class="flex items-start space-x-2">
+            <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
+              <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12c0 1.54.36 3.04 1.05 4.4L2 22l5.6-1.05C9.96 21.64 11.46 22 13 22h7c1.1 0 2-.9 2-2V12c0-5.52-4.48-10-10-10z"/>
+              </svg>
+            </div>
+            <div class="bg-white rounded-lg p-3 max-w-xs shadow-sm">
+              <p class="text-sm text-gray-800">Hai! Selamat datang di SmartSaku.</p>
+              <p class="text-sm text-gray-800 mt-1">Mau tanya apa hari ini?</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="px-4 py-3 border-t border-gray-200">
+          <div class="flex flex-wrap gap-2 mb-3">
+            <button class="quick-action-btn bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-medium hover:bg-yellow-200 transition-colors" data-action="tips">
+              💡 Tips hemat
+            </button>
+            <button class="quick-action-btn bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-medium hover:bg-green-200 transition-colors" data-action="investasi">
+              📈 Investasi
+            </button>
+            <button class="quick-action-btn bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-xs font-medium hover:bg-purple-200 transition-colors" data-action="budget">
+              📊 Budget
+            </button>
+          </div>
+        </div>
+
+        <!-- Chat Input -->
+        <div class="p-4 border-t border-gray-200 bg-white rounded-b-2xl">
+          <div class="flex items-center space-x-2">
+            <input 
+              type="text" 
+              id="chatInput" 
+              placeholder="Tanya tentang keuangan..." 
+              class="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+            <button id="sendChatBtn" class="bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat AI Script -->
+    <script type="module">
+      // Chat AI functionality
+      let isChatOpen = false;
+      let isLoading = false;
+      
+      document.addEventListener('DOMContentLoaded', function() {
+        initializeChatAI();
+      });
+      
+      function initializeChatAI() {
+        const chatToggleBtn = document.getElementById('chatToggleBtn');
+        const chatPopup = document.getElementById('chatPopup');
+        const closeChatBtn = document.getElementById('closeChatBtn');
+        const sendChatBtn = document.getElementById('sendChatBtn');
+        const chatInput = document.getElementById('chatInput');
+        const quickActionBtns = document.querySelectorAll('.quick-action-btn');
+        
+        // Toggle chat popup
+        if (chatToggleBtn) {
+          chatToggleBtn.addEventListener('click', toggleChat);
+        }
+        
+        // Close chat
+        if (closeChatBtn) {
+          closeChatBtn.addEventListener('click', closeChat);
+        }
+        
+        // Send message
+        if (sendChatBtn) {
+          sendChatBtn.addEventListener('click', sendMessage);
+        }
+        
+        // Enter key to send
+        if (chatInput) {
+          chatInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+              e.preventDefault();
+              sendMessage();
+            }
+          });
+        }
+        
+        // Quick action buttons
+        quickActionBtns.forEach(btn => {
+          btn.addEventListener('click', function() {
+            const action = this.dataset.action;
+            handleQuickAction(action);
+          });
+        });
+      }
+      
+      function toggleChat() {
+        const chatPopup = document.getElementById('chatPopup');
+        if (!chatPopup) return;
+        
+        if (isChatOpen) {
+          closeChat();
+        } else {
+          openChat();
+        }
+      }
+      
+      function openChat() {
+        const chatPopup = document.getElementById('chatPopup');
+        if (!chatPopup) return;
+        
+        chatPopup.classList.remove('hidden');
+        chatPopup.style.transform = 'scale(0.8)';
+        chatPopup.style.opacity = '0';
+        
+        // Animate in
+        setTimeout(() => {
+          chatPopup.style.transition = 'all 0.2s ease-out';
+          chatPopup.style.transform = 'scale(1)';
+          chatPopup.style.opacity = '1';
+        }, 10);
+        
+        isChatOpen = true;
+        
+        // Focus input
+        const chatInput = document.getElementById('chatInput');
+        if (chatInput) {
+          setTimeout(() => chatInput.focus(), 300);
+        }
+      }
+      
+      function closeChat() {
+        const chatPopup = document.getElementById('chatPopup');
+        if (!chatPopup) return;
+        
+        chatPopup.style.transition = 'all 0.2s ease-in';
+        chatPopup.style.transform = 'scale(0.8)';
+        chatPopup.style.opacity = '0';
+        
+        setTimeout(() => {
+          chatPopup.classList.add('hidden');
+        }, 200);
+        
+        isChatOpen = false;
+      }
+      
+      async function sendMessage() {
+        const chatInput = document.getElementById('chatInput');
+        if (!chatInput || isLoading) return;
+        
+        const message = chatInput.value.trim();
+        if (!message) return;
+        
+        // Clear input
+        chatInput.value = '';
+        
+        // Add user message to chat
+        addMessageToChat('user', message);
+        
+        // Show loading
+        showTypingIndicator();
+        
+        try {
+          // Send to chat API
+          const response = await fetch('https://smartsaku.ddns.net/chat', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              message: message
+            })
+          });
+          
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          
+          const data = await response.json();
+          console.log('Chat response:', data);
+          
+          // Remove typing indicator
+          removeTypingIndicator();
+          
+          // Add AI response
+          if (data.reply) {
+            addMessageToChat('ai', data.reply);
+          } else {
+            addMessageToChat('ai', 'Maaf, saya tidak bisa memproses permintaan Anda saat ini.');
+          }
+          
+        } catch (error) {
+          console.error('Error sending chat message:', error);
+          removeTypingIndicator();
+          addMessageToChat('ai', 'Maaf, terjadi kesalahan. Silakan coba lagi nanti.');
+        }
+      }
+      
+      async function handleQuickAction(action) {
+        const messages = {
+          'tips': 'Berikan tips hemat untuk pengelolaan keuangan',
+          'investasi': 'Bagaimana cara memulai investasi yang baik?',
+          'budget': 'Tolong berikan saran tentang perencanaan budget bulanan'
+        };
+        
+        const message = messages[action];
+        if (!message) return;
+        
+        // Add user message
+        addMessageToChat('user', message);
+        
+        // Show typing indicator
+        showTypingIndicator();
+        
+        try {
+          // Get recommendation from API
+          const response = await fetch('https://smartsaku.ddns.net/recommendation', {
+            method: 'GET',
+            headers: {
+              'Accept': 'application/json',
+            }
+          });
+          
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          
+          const data = await response.json();
+          console.log('Recommendation response:', data);
+          
+          removeTypingIndicator();
+          
+          // Add AI response from recommendation API
+          if (data.rekomendasi) {
+            addMessageToChat('ai', data.rekomendasi);
+          } else {
+            // Fallback responses
+            const fallbackResponses = {
+              'tips': 'Untuk menghemat, coba terapkan aturan 50/30/20: 50% untuk kebutuhan, 30% untuk keinginan, dan 20% untuk tabungan.',
+              'investasi': 'Mulai investasi dengan instrumen yang aman seperti reksa dana pasar uang, lalu tingkatkan ke saham setelah memahami risikonya.',
+              'budget': 'Buat daftar pengeluaran bulanan, kategorikan mana yang wajib dan opsional, lalu alokasikan dana sesuai prioritas.'
+            };
+            addMessageToChat('ai', fallbackResponses[action] || 'Terima kasih atas pertanyaannya!');
+          }
+          
+        } catch (error) {
+          console.error('Error getting recommendation:', error);
+          removeTypingIndicator();
+          
+          // Use fallback responses
+          const fallbackResponses = {
+            'tips': 'Coba manfaatkan promo atau diskon untuk mahasiswa. Sebelum membeli sesuatu, tanya dirimu: "Apakah aku benar-benar butuh ini?" Itu membantu banget!',
+            'investasi': 'Hasil Rekomendasi: Pola belanjamu sudah efisien. Mantap! Kamu bisa alokasikan sisa uangnya untuk menabung atau investasi.',
+            'budget': 'Untuk budget yang efektif, gunakan aplikasi pencatat keuangan dan review pengeluaran mingguan.'
+          };
+          
+          addMessageToChat('ai', fallbackResponses[action] || 'Maaf, saya tidak bisa memberikan rekomendasi saat ini.');
+        }
+      }
+      
+      function addMessageToChat(sender, message) {
+        const chatMessages = document.getElementById('chatMessages');
+        if (!chatMessages) return;
+        
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'flex items-start space-x-2';
+        
+        if (sender === 'user') {
+          messageDiv.className = 'flex items-start space-x-2 justify-end';
+          messageDiv.innerHTML = `
+            <div class="bg-blue-600 text-white rounded-lg p-3 max-w-xs">
+              <p class="text-sm">${message}</p>
+            </div>
+            <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center flex-shrink-0">
+              <svg class="w-4 h-4 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12c0 1.54.36 3.04 1.05 4.4L2 22l5.6-1.05C9.96 21.64 11.46 22 13 22h7c1.1 0 2-.9 2-2V12c0-5.52-4.48-10-10-10zm0 18c-1.4 0-2.78-.35-4-.99L6 20l.99-2C6.35 16.78 6 15.4 6 14c0-3.31 2.69-6 6-6s6 2.69 6 6-2.69 6-6 6z"/>
+              </svg>
+            </div>
+          `;
+        } else {
+          messageDiv.innerHTML = `
+            <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
+              <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12c0 1.54.36 3.04 1.05 4.4L2 22l5.6-1.05C9.96 21.64 11.46 22 13 22h7c1.1 0 2-.9 2-2V12c0-5.52-4.48-10-10-10z"/>
+              </svg>
+            </div>
+            <div class="bg-white rounded-lg p-3 max-w-xs shadow-sm">
+              <p class="text-sm text-gray-800">${message}</p>
+            </div>
+          `;
+        }
+        
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+      
+      function showTypingIndicator() {
+        const chatMessages = document.getElementById('chatMessages');
+        if (!chatMessages || isLoading) return;
+        
+        isLoading = true;
+        
+        const typingDiv = document.createElement('div');
+        typingDiv.id = 'typingIndicator';
+        typingDiv.className = 'flex items-start space-x-2';
+        typingDiv.innerHTML = `
+          <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
+            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2C6.48 2 2 6.48 2 12c0 1.54.36 3.04 1.05 4.4L2 22l5.6-1.05C9.96 21.64 11.46 22 13 22h7c1.1 0 2-.9 2-2V12c0-5.52-4.48-10-10-10z"/>
+            </svg>
+          </div>
+          <div class="bg-white rounded-lg p-3 shadow-sm">
+            <div class="flex space-x-1">
+              <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0ms"></div>
+              <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 150ms"></div>
+              <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 300ms"></div>
+            </div>
+          </div>
+        `;
+        
+        chatMessages.appendChild(typingDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+      
+      function removeTypingIndicator() {
+        const typingIndicator = document.getElementById('typingIndicator');
+        if (typingIndicator) {
+          typingIndicator.remove();
+        }
+        isLoading = false;
+      }
+
+      // Pastikan tombol chat terlihat saat halaman dimuat
+      document.addEventListener('DOMContentLoaded', function() {
+        // Force show chat button
+        const chatToggleBtn = document.getElementById('chatToggleBtn');
+        if (chatToggleBtn) {
+          chatToggleBtn.style.display = 'flex';
+          chatToggleBtn.style.position = 'fixed';
+          chatToggleBtn.style.bottom = '24px';
+          chatToggleBtn.style.right = '24px';
+          chatToggleBtn.style.zIndex = '9999';
+          console.log('Chat button initialized and visible');
+        } else {
+          console.error('Chat toggle button not found!');
+        }
+      });
+    </script>    <!-- Chat Toggle Button - Fixed positioning -->
+    <div class="fixed bottom-6 right-6 z-50">
+      <button id="chatToggleBtn" class="bg-blue-600 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 transition-all duration-300 hover:scale-110 flex items-center justify-center">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+        </svg>
+      </button>
+    </div>
+    
+    <!-- Script untuk simulasi keuangan -->
+    <script type="module">
+      // Impor simulationHandlers.js
+      import { setupSimulasiHandlers } from '../js/simulationHandlers.js';
+      
+      // Setup event handlers saat DOM siap
+      document.addEventListener('DOMContentLoaded', () => {
+        console.log('Setting up simulasi handlers');
+        setupSimulasiHandlers();
+        
+        // Jalankan simulasi awal untuk menampilkan hasil default
+        setTimeout(() => {
+          console.log('Running initial calculations');
+          const btnHitungTabungan = document.getElementById('hitungTabungan');
+          const btnHitungInvestasi = document.getElementById('hitungInvestasi');
+          
+          if (btnHitungTabungan) {
+            btnHitungTabungan.click();
+          }
+          
+          if (btnHitungInvestasi) {
+            btnHitungInvestasi.click();
+          }
+        }, 500);
+      });
+    </script>
   </body>
 </html>

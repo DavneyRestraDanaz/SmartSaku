@@ -37,7 +37,8 @@
     >
       <div class="max-w-md w-full space-y-8">
         <!-- Header -->
-        <div class="text-center">          <a href="/SmartSaku/" class="inline-block">
+        <div class="text-center">
+          <a href="/SmartSaku/" class="inline-block">
             <h1
               class="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent"
             >
@@ -146,13 +147,14 @@
               >
                 Lupa password?
               </a>
-            </div>            <button
+            </div>
+            <button
               type="submit"
               id="btnLogin"
               class="w-full bg-gradient-to-r from-primary to-secondary text-white py-3 px-4 rounded-lg font-semibold hover:shadow-lg hover:shadow-primary/25 transform hover:-translate-y-0.5 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
             >
               Masuk
-            </button>          
+            </button>
           </form>
         </div>
 
@@ -186,7 +188,8 @@
         constructor() {
           this.initEventListeners();
           this.cekStatusLogin();
-        }        initEventListeners() {
+        }
+        initEventListeners() {
           // Form login
           document
             .getElementById("formLogin")
@@ -233,23 +236,48 @@
 
           const btnLogin = document.getElementById("btnLogin");
           LoadingUtil.tampilkanLoadingButton(btnLogin, "Sedang masuk...");
-
           try {
-            const result = await AuthService.login({ email, password });
+            console.log("Login dengan email:", email);
 
-            if (result.berhasil) {
+            // Pastikan dikirim seperti format yang berhasil di Postman
+            const result = await fetch(
+              "https://smartsaku.ddns.net/api/user/login",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  email: email,
+                  password: password,
+                }),
+              }
+            ).then((response) => {
+              console.log("Status response:", response.status);
+              return response.json();
+            });
+
+            // Simpan data user dan token jika berhasil
+            if (result && result.user) {
+              localStorage.setItem("user", JSON.stringify(result.user));
+              if (result.token) localStorage.setItem("token", result.token);
+            }
+
+            if (result && result.user) {
               NotifikasiUtil.tampilkanSukses(
                 "Login berhasil! Mengalihkan ke dashboard..."
               ); // Redirect ke dashboard setelah 2 detik
               setTimeout(() => {
-                window.location.href = "/SmartSaku/src/templates/dashboard.html";
+                window.location.href =
+                  "/SmartSaku/src/templates/dashboard.html";
               }, 2000);
             } else {
-              NotifikasiUtil.tampilkanError(result.pesan);
+              NotifikasiUtil.tampilkanError(result?.pesan || "Login gagal");
             }
           } catch (error) {
             NotifikasiUtil.tampilkanError("Terjadi kesalahan sistem");
-            console.error("Error login:", error);          } finally {
+            console.error("Error login:", error);
+          } finally {
             LoadingUtil.sembunyikanLoadingButton(btnLogin);
           }
         }
@@ -328,10 +356,11 @@
         }
       }
 
-      // Inisialisasi controller saat DOM ready      
+      // Inisialisasi controller saat DOM ready
       document.addEventListener("DOMContentLoaded", () => {
         new LoginController();
-      });    </script>
+      });
+    </script>
     <script type="module" src="../main.js"></script>
   </body>
 </html>

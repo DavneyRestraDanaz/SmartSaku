@@ -1,5 +1,5 @@
 // Service untuk mengelola autentikasi user
-import { API_ENDPOINTS } from '../config/api.js';
+import { API_ENDPOINTS, API_BASE_URL } from '../config/api.js';
 
 class AuthService {
     /**
@@ -8,81 +8,48 @@ class AuthService {
      * @returns {Promise<Object>} Response dari API
      */    async login(username, password) {
         try {
-            const response = await fetch('https://202.10.35.227/api/user/login', {
+            // Format request body sama persis dengan di Postman
+            const requestBody = JSON.stringify({
+                "email": username,
+                "password": password
+            });
+
+            console.log('Request body:', requestBody);
+
+            const response = await fetch(API_ENDPOINTS.LOGIN, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ username, password })
+                body: requestBody
             });
 
+            // Ambil response text untuk debugging
+            const responseText = await response.text();
+            console.log('Response:', responseText);
+
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                throw new Error(`HTTP error! status: ${response.status}, response: ${responseText}`);
             }
 
-            const data = await response.json();
-            localStorage.setItem('token', data.token);
+            // Parse response JSON
+            const data = JSON.parse(responseText);
+            console.log('Login berhasil:', data);
+
+            // Ambil ID dan data user dari respons
+            if (data.user && data.user.id) {
+                console.log('User ID:', data.user.id);
+                localStorage.setItem('userId', data.user.id);
+            }
+
+            // Simpan data ke localStorage
+            if (data.token) localStorage.setItem('token', data.token);
             localStorage.setItem('user', JSON.stringify(data.user));
+
             return data;
         } catch (error) {
             console.error('Error saat login:', error);
-            
-            // Coba login dengan metode alternatif jika fetch gagal
-            return this.tryAlternativeLogin(username, password);
-        }
-    }
-
-    async tryAlternativeLogin(username, password) {
-        try {
-            console.log("Mencoba metode login alternatif...");
-            
-            // Coba dengan alternatif endpoint
-            const response = await fetch('https://202.10.35.227/api/user/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ username, password })
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const data = await response.json();
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('user', JSON.stringify(data.user));
-            return data;
-        } catch (error) {
-            console.error('Metode login alternatif gagal, mencoba dengan XHR...');
-            
-            // Jika kedua metode gagal, coba dengan XMLHttpRequest sebagai fallback
-            return new Promise((resolve, reject) => {
-                const xhr = new XMLHttpRequest();
-                xhr.open('POST', 'https://202.10.35.227/api/user/login', true);
-                xhr.setRequestHeader('Content-Type', 'application/json');
-                
-                xhr.onload = function() {
-                    if (xhr.status >= 200 && xhr.status < 300) {
-                        try {
-                            const data = JSON.parse(xhr.responseText);
-                            localStorage.setItem('token', data.token);
-                            localStorage.setItem('user', JSON.stringify(data.user));
-                            resolve(data);
-                        } catch (e) {
-                            reject(new Error('Failed to parse response'));
-                        }
-                    } else {
-                        reject(new Error(`XHR error! status: ${xhr.status}`));
-                    }
-                };
-                
-                xhr.onerror = function() {
-                    reject(new Error('Network error with XHR'));
-                };
-                
-                xhr.send(JSON.stringify({ username, password }));
-            });
+            throw error; // Lempar error agar dapat ditangani oleh pemanggil
         }
     }
 
@@ -90,10 +57,9 @@ class AuthService {
      * Register user baru
      * @param {Object} dataUser - Data user baru (name, email, password)
      * @returns {Promise<Object>} Response dari API
-     */
-    async register(userData) {
+     */    async register(userData) {
         try {
-            const response = await fetch('https://202.10.35.227/api/user/register', {
+            const response = await fetch(API_ENDPOINTS.REGISTER, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -144,7 +110,7 @@ class AuthService {
                 throw new Error('No authentication token found');
             }
 
-            const response = await fetch('https://202.10.35.227/api/user/profile', {
+            const response = await fetch(`${API_BASE_URL}/user/profile`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -170,7 +136,7 @@ class AuthService {
                 throw new Error('No authentication token found');
             }
 
-            const response = await fetch('https://202.10.35.227/api/user/profile', {
+            const response = await fetch(`${API_BASE_URL}/user/profile`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -184,14 +150,14 @@ class AuthService {
             }
 
             const data = await response.json();
-            
+
             // Update user data in localStorage if necessary
             const currentUser = this.getCurrentUser();
             if (currentUser) {
                 const updatedUser = { ...currentUser, ...profileData };
                 localStorage.setItem('user', JSON.stringify(updatedUser));
             }
-            
+
             return data;
         } catch (error) {
             console.error('Error saat mengupdate profil:', error);
@@ -206,7 +172,7 @@ class AuthService {
                 throw new Error('No authentication token found');
             }
 
-            const response = await fetch('https://202.10.35.227/api/user/change-password', {
+            const response = await fetch(`${API_BASE_URL}/user/change-password`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
