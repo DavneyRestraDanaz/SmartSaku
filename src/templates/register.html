@@ -30,14 +30,13 @@
         class="absolute bottom-1/4 left-1/4 w-96 h-96 bg-accent rounded-full opacity-5 blur-3xl animate-pulse"
         style="animation-delay: -2s"
       ></div>
-    </div>
-
-    <div
+    </div>    <div
       class="relative z-10 min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12"
     >
       <div class="max-w-md w-full space-y-8">
         <!-- Header -->
-        <div class="text-center">          <a href="/SmartSaku/" class="inline-block">
+        <div class="text-center">
+          <a href="/SmartSaku/" class="inline-block">
             <h1
               class="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent"
             >
@@ -328,14 +327,27 @@
           LoadingUtil.tampilkanLoadingButton(
             btnRegister,
             "Mendaftarkan akun..."
-          );
-
-          try {
-            const result = await AuthService.register({
-              name,
-              email,
-              password,
-            });            if (result.berhasil) {
+          );          try {
+            console.log("Registrasi dengan email:", email);
+            
+            // Ganti dengan fetch API langsung seperti di login.html
+            const response = await fetch("https://smartsaku.ddns.net/api/user/register", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                name: name,
+                email: email,
+                password: password
+              }),
+            });
+            
+            console.log("Status response:", response.status);
+            const result = await response.json();
+            console.log("Response:", result);
+            
+            if (response.ok && result) {
               NotifikasiUtil.tampilkanSukses(
                 "Registrasi berhasil! Silakan login dengan akun Anda."
               );
@@ -347,7 +359,8 @@
                 window.location.href = "/SmartSaku/src/templates/login.html";
               }, 3000);
             } else {
-              NotifikasiUtil.tampilkanError(result.pesan);
+              const errorMessage = result?.message || result?.pesan || "Registrasi gagal. Silakan coba lagi.";
+              NotifikasiUtil.tampilkanError(errorMessage);
             }
           } catch (error) {
             NotifikasiUtil.tampilkanError("Terjadi kesalahan sistem");
@@ -493,5 +506,60 @@
         new RegisterController();
       });    </script>
     <script type="module" src="../main.js"></script>
+
+    <!-- Debug Script -->
+    <script>
+      // Debugging script untuk membantu diagnosa masalah registrasi
+      document.addEventListener('DOMContentLoaded', function() {
+        // Log when form is submitted
+        const formRegister = document.getElementById('formRegister');
+        if (formRegister) {
+          console.log('Debug: Form register ditemukan');
+          formRegister.addEventListener('submit', function(e) {
+            // This is just for debugging, not preventing the normal flow
+            console.log('Debug: Form register disubmit');
+            
+            // Collect all form data
+            const formData = new FormData(formRegister);
+            const formDataObj = {};
+            formData.forEach((value, key) => {
+              if (key !== 'password' && key !== 'confirmPassword') {
+                formDataObj[key] = value;
+              } else {
+                formDataObj[key] = '[PROTECTED]';
+              }
+            });
+            
+            console.log('Debug: Form data:', formDataObj);
+            
+            // Test CORS
+            fetch('https://smartsaku.ddns.net/api/user/register', {
+              method: 'OPTIONS',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              }
+            }).then(response => {
+              console.log('Debug: CORS test response:', response.status);
+            }).catch(error => {
+              console.error('Debug: CORS test error:', error);
+            });
+          });
+        } else {
+          console.error('Debug: Form register tidak ditemukan!');
+        }
+        
+        // Check imported modules
+        if (typeof AuthService !== 'undefined') {
+          console.log('Debug: AuthService berhasil diimpor');
+        } else {
+          console.log('Debug: AuthService tidak tersedia');
+        }
+        
+        if (typeof NotifikasiUtil !== 'undefined') {
+          console.log('Debug: NotifikasiUtil berhasil diimpor');
+        }
+      });
+    </script>
   </body>
 </html>
